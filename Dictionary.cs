@@ -17,29 +17,52 @@ namespace SpaceFix
         public static string[] Words => words.Keys;
 
         //Methods
+        public static void Delete()
+        {
+            words = null;
+        }
         public static bool? Valuable(string key) => words.Valuable(key);
-        public static void CreateFromFile(string path)
+        public static void CreateFromFile(params string[] paths)
+        {
+            CreateFromFile(-1, paths);
+        }
+        public static void CreateFromFile(int encoding, params string[] paths)
         {
             words = new KeyTrie();
-            using (StreamReader sr = new StreamReader(path))
-            {
-                string word = string.Empty;
-                int c = 0;
-                do
+            Expand(encoding, paths);
+        }
+        public static void Expand(params string[] paths)
+        {
+            Expand(-1, paths);
+        }
+        public static void Expand(int encoding, params string[] paths)
+        {
+            if (words == null) throw new InvalidOperationException(
+                "The dictionary must be created first.");
+            foreach (string path in paths)
+                using (StreamReader sr =
+                        encoding < 0 ?
+                            new StreamReader(path) :
+                            new StreamReader(path,
+                                Encoding.GetEncoding(encoding)))
                 {
-                    c = sr.Read();
-                    if (char.IsLetter((char)c))
-                        word += char.ToLowerInvariant((char)c);
-                    else
+                    string word = string.Empty;
+                    int c = 0;
+                    do
                     {
-                        if (word != string.Empty)
+                        c = sr.Read();
+                        if (char.IsLetter((char)c))
+                            word += char.ToLowerInvariant((char)c);
+                        else
                         {
-                            words.Add(word);
-                            word = string.Empty;
+                            if (word != string.Empty)
+                            {
+                                words.Add(word);
+                                word = string.Empty;
+                            }
                         }
-                    }
-                } while (c > -1);
-            }
+                    } while (c > -1);
+                }
         }
         public static string[][] SeparateWords(string concatenatedWords)
         {
