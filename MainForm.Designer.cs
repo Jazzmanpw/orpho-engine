@@ -29,51 +29,59 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.createDictionaryButton = new System.Windows.Forms.Button();
             this.sampleCheckBox = new System.Windows.Forms.CheckBox();
             this.timerLabel = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.wreckItButton = new System.Windows.Forms.Button();
             this.showDictionaryButton = new System.Windows.Forms.Button();
-            this.fixItButton = new System.Windows.Forms.Button();
+            this.fixItFromFileButton = new System.Windows.Forms.Button();
             this.showDictionaryTextBox = new System.Windows.Forms.TextBox();
+            this.encodingLabel1 = new System.Windows.Forms.Label();
+            this.encodingLabel2 = new System.Windows.Forms.Label();
+            this.encodingTextBox = new System.Windows.Forms.TextBox();
+            this.dictionaryLabel = new System.Windows.Forms.Label();
+            this.generalPanel = new System.Windows.Forms.Panel();
+            this.textsOperationsLabel = new System.Windows.Forms.Label();
+            this.textsOperationsPanel = new System.Windows.Forms.Panel();
+            this.fixItFromTextBoxButton = new System.Windows.Forms.Button();
+            this.dictionaryPanel = new System.Windows.Forms.Panel();
+            this.generalPanel.SuspendLayout();
+            this.textsOperationsPanel.SuspendLayout();
+            this.dictionaryPanel.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // createDictionaryButton
             // 
-            this.createDictionaryButton.Location = new System.Drawing.Point(13, 13);
+            this.createDictionaryButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.createDictionaryButton.Location = new System.Drawing.Point(0, 0);
             this.createDictionaryButton.Name = "createDictionaryButton";
-            this.createDictionaryButton.Size = new System.Drawing.Size(159, 23);
+            this.createDictionaryButton.Size = new System.Drawing.Size(81, 23);
             this.createDictionaryButton.TabIndex = 0;
-            this.createDictionaryButton.Text = "Create a dictionary";
+            this.createDictionaryButton.Text = "Create";
             this.createDictionaryButton.UseVisualStyleBackColor = true;
             this.createDictionaryButton.Click += new System.EventHandler(this.createDictionaryButton_Click);
             // 
             // sampleCheckBox
             // 
             this.sampleCheckBox.AutoSize = true;
-            this.sampleCheckBox.Checked = true;
-            this.sampleCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.sampleCheckBox.Location = new System.Drawing.Point(13, 42);
+            this.sampleCheckBox.Location = new System.Drawing.Point(90, 31);
             this.sampleCheckBox.Name = "sampleCheckBox";
             this.sampleCheckBox.Size = new System.Drawing.Size(81, 17);
             this.sampleCheckBox.TabIndex = 1;
             this.sampleCheckBox.Text = "Use sample";
             this.sampleCheckBox.UseVisualStyleBackColor = true;
+            this.sampleCheckBox.CheckedChanged += new System.EventHandler(this.sampleCheckBox_CheckedChanged);
             // 
             // timerLabel
             // 
             this.timerLabel.AutoSize = true;
-            this.timerLabel.Location = new System.Drawing.Point(98, 43);
+            this.timerLabel.Location = new System.Drawing.Point(176, -3);
             this.timerLabel.Name = "timerLabel";
             this.timerLabel.Size = new System.Drawing.Size(55, 13);
             this.timerLabel.TabIndex = 2;
             this.timerLabel.Text = "Time in s: ";
+            this.timerLabel.Visible = false;
             // 
             // timer
             // 
@@ -83,9 +91,11 @@
             // 
             // wreckItButton
             // 
-            this.wreckItButton.Location = new System.Drawing.Point(12, 95);
+            this.wreckItButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.wreckItButton.Enabled = false;
+            this.wreckItButton.Location = new System.Drawing.Point(0, 0);
             this.wreckItButton.Name = "wreckItButton";
-            this.wreckItButton.Size = new System.Drawing.Size(82, 23);
+            this.wreckItButton.Size = new System.Drawing.Size(162, 23);
             this.wreckItButton.TabIndex = 3;
             this.wreckItButton.Text = "Wreck-It-Ralf";
             this.wreckItButton.UseVisualStyleBackColor = true;
@@ -93,23 +103,25 @@
             // 
             // showDictionaryButton
             // 
-            this.showDictionaryButton.Location = new System.Drawing.Point(12, 65);
+            this.showDictionaryButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.showDictionaryButton.Location = new System.Drawing.Point(81, 0);
             this.showDictionaryButton.Name = "showDictionaryButton";
-            this.showDictionaryButton.Size = new System.Drawing.Size(160, 24);
+            this.showDictionaryButton.Size = new System.Drawing.Size(81, 23);
             this.showDictionaryButton.TabIndex = 4;
-            this.showDictionaryButton.Text = "Show the dictionary";
+            this.showDictionaryButton.Text = "Show";
             this.showDictionaryButton.UseVisualStyleBackColor = true;
             this.showDictionaryButton.Click += new System.EventHandler(this.showDictionaryButton_Click);
             // 
-            // fixItButton
+            // fixItFromFileButton
             // 
-            this.fixItButton.Location = new System.Drawing.Point(101, 95);
-            this.fixItButton.Name = "fixItButton";
-            this.fixItButton.Size = new System.Drawing.Size(71, 23);
-            this.fixItButton.TabIndex = 5;
-            this.fixItButton.Text = "Fix-It-Felix";
-            this.fixItButton.UseVisualStyleBackColor = true;
-            this.fixItButton.Click += new System.EventHandler(this.fixItButton_Click);
+            this.fixItFromFileButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.fixItFromFileButton.Location = new System.Drawing.Point(0, 23);
+            this.fixItFromFileButton.Name = "fixItFromFileButton";
+            this.fixItFromFileButton.Size = new System.Drawing.Size(162, 23);
+            this.fixItFromFileButton.TabIndex = 5;
+            this.fixItFromFileButton.Text = "Fix-It-Felix (Open...)";
+            this.fixItFromFileButton.UseVisualStyleBackColor = true;
+            this.fixItFromFileButton.Click += new System.EventHandler(this.fixItFromFileButton_Click);
             // 
             // showDictionaryTextBox
             // 
@@ -126,36 +138,137 @@
             this.showDictionaryTextBox.TabIndex = 6;
             this.showDictionaryTextBox.TabStop = false;
             // 
+            // encodingLabel1
+            // 
+            this.encodingLabel1.AutoSize = true;
+            this.encodingLabel1.Location = new System.Drawing.Point(3, 0);
+            this.encodingLabel1.Name = "encodingLabel1";
+            this.encodingLabel1.Size = new System.Drawing.Size(154, 13);
+            this.encodingLabel1.TabIndex = 7;
+            this.encodingLabel1.Text = "Enter encoding codepage here";
+            // 
+            // encodingLabel2
+            // 
+            this.encodingLabel2.AutoSize = true;
+            this.encodingLabel2.Location = new System.Drawing.Point(3, 13);
+            this.encodingLabel2.Name = "encodingLabel2";
+            this.encodingLabel2.Size = new System.Drawing.Size(138, 13);
+            this.encodingLabel2.TabIndex = 8;
+            this.encodingLabel2.Text = "(if not needed, leave empty)";
+            // 
+            // encodingTextBox
+            // 
+            this.encodingTextBox.Location = new System.Drawing.Point(6, 29);
+            this.encodingTextBox.Name = "encodingTextBox";
+            this.encodingTextBox.Size = new System.Drawing.Size(78, 20);
+            this.encodingTextBox.TabIndex = 9;
+            // 
+            // dictionaryLabel
+            // 
+            this.dictionaryLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dictionaryLabel.AutoSize = true;
+            this.dictionaryLabel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dictionaryLabel.Location = new System.Drawing.Point(49, 51);
+            this.dictionaryLabel.Name = "dictionaryLabel";
+            this.dictionaryLabel.Size = new System.Drawing.Size(69, 17);
+            this.dictionaryLabel.TabIndex = 10;
+            this.dictionaryLabel.Text = "Dictionary";
+            // 
+            // generalPanel
+            // 
+            this.generalPanel.Controls.Add(this.textsOperationsLabel);
+            this.generalPanel.Controls.Add(this.textsOperationsPanel);
+            this.generalPanel.Controls.Add(this.dictionaryPanel);
+            this.generalPanel.Controls.Add(this.dictionaryLabel);
+            this.generalPanel.Controls.Add(this.encodingLabel1);
+            this.generalPanel.Controls.Add(this.sampleCheckBox);
+            this.generalPanel.Controls.Add(this.encodingTextBox);
+            this.generalPanel.Controls.Add(this.encodingLabel2);
+            this.generalPanel.Location = new System.Drawing.Point(5, 4);
+            this.generalPanel.Name = "generalPanel";
+            this.generalPanel.Size = new System.Drawing.Size(168, 246);
+            this.generalPanel.TabIndex = 11;
+            // 
+            // textsOperationsLabel
+            // 
+            this.textsOperationsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textsOperationsLabel.AutoSize = true;
+            this.textsOperationsLabel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textsOperationsLabel.Location = new System.Drawing.Point(21, 97);
+            this.textsOperationsLabel.Name = "textsOperationsLabel";
+            this.textsOperationsLabel.Size = new System.Drawing.Size(129, 17);
+            this.textsOperationsLabel.TabIndex = 11;
+            this.textsOperationsLabel.Text = "Operations with text";
+            // 
+            // textsOperationsPanel
+            // 
+            this.textsOperationsPanel.Controls.Add(this.fixItFromTextBoxButton);
+            this.textsOperationsPanel.Controls.Add(this.fixItFromFileButton);
+            this.textsOperationsPanel.Controls.Add(this.wreckItButton);
+            this.textsOperationsPanel.Location = new System.Drawing.Point(3, 117);
+            this.textsOperationsPanel.Name = "textsOperationsPanel";
+            this.textsOperationsPanel.Size = new System.Drawing.Size(162, 69);
+            this.textsOperationsPanel.TabIndex = 12;
+            // 
+            // fixItFromTextBoxButton
+            // 
+            this.fixItFromTextBoxButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fixItFromTextBoxButton.Location = new System.Drawing.Point(0, 46);
+            this.fixItFromTextBoxButton.Name = "fixItFromTextBoxButton";
+            this.fixItFromTextBoxButton.Size = new System.Drawing.Size(162, 23);
+            this.fixItFromTextBoxButton.TabIndex = 6;
+            this.fixItFromTextBoxButton.Text = "Fix-It-Felix (Paste...)";
+            this.fixItFromTextBoxButton.UseVisualStyleBackColor = true;
+            this.fixItFromTextBoxButton.Click += new System.EventHandler(this.fixItFromTextBoxButton_Click);
+            // 
+            // dictionaryPanel
+            // 
+            this.dictionaryPanel.Controls.Add(this.showDictionaryButton);
+            this.dictionaryPanel.Controls.Add(this.createDictionaryButton);
+            this.dictionaryPanel.Location = new System.Drawing.Point(3, 71);
+            this.dictionaryPanel.Name = "dictionaryPanel";
+            this.dictionaryPanel.Size = new System.Drawing.Size(162, 23);
+            this.dictionaryPanel.TabIndex = 11;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(432, 262);
+            this.Controls.Add(this.generalPanel);
             this.Controls.Add(this.showDictionaryTextBox);
-            this.Controls.Add(this.fixItButton);
-            this.Controls.Add(this.showDictionaryButton);
-            this.Controls.Add(this.wreckItButton);
             this.Controls.Add(this.timerLabel);
-            this.Controls.Add(this.sampleCheckBox);
-            this.Controls.Add(this.createDictionaryButton);
             this.Name = "MainForm";
             this.Text = "Space Fix";
+            this.generalPanel.ResumeLayout(false);
+            this.generalPanel.PerformLayout();
+            this.textsOperationsPanel.ResumeLayout(false);
+            this.dictionaryPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button createDictionaryButton;
         private System.Windows.Forms.CheckBox sampleCheckBox;
         private System.Windows.Forms.Label timerLabel;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Button wreckItButton;
         private System.Windows.Forms.Button showDictionaryButton;
-        private System.Windows.Forms.Button fixItButton;
+        private System.Windows.Forms.Button fixItFromFileButton;
         private System.Windows.Forms.TextBox showDictionaryTextBox;
+        private System.Windows.Forms.Label encodingLabel1;
+        private System.Windows.Forms.Label encodingLabel2;
+        private System.Windows.Forms.TextBox encodingTextBox;
+        private System.Windows.Forms.Label dictionaryLabel;
+        private System.Windows.Forms.Panel generalPanel;
+        private System.Windows.Forms.Panel dictionaryPanel;
+        private System.Windows.Forms.Label textsOperationsLabel;
+        private System.Windows.Forms.Panel textsOperationsPanel;
+        private System.Windows.Forms.Button fixItFromTextBoxButton;
     }
 }
 

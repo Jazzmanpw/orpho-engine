@@ -85,6 +85,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="SampleTexts\RussianSapmle.txt" />
+    <Content Include="SampleTexts\AdditionalSample - Copy.txt" />
+    <Content Include="SampleTexts\AdditionalSample.txt" />
     <Content Include="SampleTexts\SimpleSample.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
