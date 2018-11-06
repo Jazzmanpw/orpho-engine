@@ -12,17 +12,6 @@ namespace SpaceFix
 {
     public partial class MainForm : Form
     {
-        //class IOForm : Form
-        //{
-        //    //Constructors
-        //    public IOForm()
-        //    {
-        //        Controls.Add(IOTextBox);
-        //    }
-
-        //    //Fields
-        //    TextBox IOTextBox = new TextBox();
-        //}
         //Enumerators
         public enum Messages
         {
@@ -31,7 +20,8 @@ namespace SpaceFix
             textNotWrecked,
             showDictionary,
             codepageParse,
-            replaceDictionary
+            replaceDictionary,
+            canNotFix
         }
 
         //Constructors
@@ -90,6 +80,11 @@ namespace SpaceFix
                         "Do you want to replace it?",
                         "Dictionary replacing", MessageBoxButtons.YesNo);
 
+                case Messages.canNotFix:
+                    return MessageBox.Show("Entered text can not be fixed with the dictionary.\n" +
+                        "May be some words have another form or typo.\n" +
+                        "Please, check the text and try again");
+
                 default:
                     throw new NotImplementedException();
             }
@@ -103,8 +98,11 @@ namespace SpaceFix
         }
         void OpenFileAndDo(pathsOperation Operation)
         {
-            if (!(int.TryParse(encodingTextBox.Text, out encoding) &&
-                encoding >= 0 && encoding <= 65535))
+            //If encodingText is not empty and either we can not parse it
+            //or it's less then zero or it's more then 65 535
+            if (encodingTextBox.Text != string.Empty &&
+                !int.TryParse(encodingTextBox.Text, out encoding) ||
+                encoding < 0 || encoding > 65535)
                 MessageShow(Messages.codepageParse);
             else
             {
@@ -125,6 +123,22 @@ namespace SpaceFix
                             Operation(ofd.FileNames);
                     }
             }
+        }
+        string TryToFix(IOForm IForm)
+        {
+            if (IForm.ShowDialog() == DialogResult.OK)
+                try
+                { return Fixer.FixString(IForm.textBox.Text); }
+                catch (ArgumentException e)
+                {
+                    if (e.ParamName == "keys")
+                    {
+                        MessageShow(Messages.canNotFix);
+                        return TryToFix(IForm);
+                    }
+                    throw;
+                }
+            throw new OperationCanceledException();
         }
 
         //Event handlers
@@ -149,6 +163,24 @@ namespace SpaceFix
                 else OpenFileAndDo(Fixer.FixSpaces);
             else MessageShow(Messages.noDictionary);
         }
+        private void fixItFromTextBoxButton_Click(object sender, EventArgs e)
+        {
+            using (IOForm IForm = new IOForm(true))
+            {
+                string text;
+                try
+                {
+                    text = TryToFix(IForm);
+                    using (IOForm OForm = new IOForm(false))
+                    {
+                        OForm.textBox.Text = text;
+                        OForm.ShowDialog();
+                    }
+                }
+                catch (OperationCanceledException)
+                { }
+            }
+        }
         private void showDictionaryButton_Click(object sender, EventArgs e)
         {
             if (!Dictionary.IsEmpty)
@@ -164,13 +196,10 @@ namespace SpaceFix
         {
             timerTime++;
         }
-        private void fixItFromTextBoxButton_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
         private void sampleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            wreckItButton.Enabled = sampleCheckBox.Checked;
+            fixItFromTextBoxButton.Enabled =
+                !(wreckItButton.Enabled = sampleCheckBox.Checked);
         }
         private void wreckItButton_Click(object sender, EventArgs e)
         {

@@ -7,3 +7,4 @@ E:\_ДИМИНЫ ФАЙЛЫ\C#\Projects\SpaceFix\obj\Debug\SpaceFix.csproj.Gener
 E:\_ДИМИНЫ ФАЙЛЫ\C#\Projects\SpaceFix\obj\Debug\SpaceFix.exe
 E:\_ДИМИНЫ ФАЙЛЫ\C#\Projects\SpaceFix\obj\Debug\SpaceFix.pdb
 E:\_ДИМИНЫ ФАЙЛЫ\C#\Projects\SpaceFix\obj\Debug\SpaceFix.MainForm.resources
+E:\_ДИМИНЫ ФАЙЛЫ\C#\Projects\SpaceFix\obj\Debug\SpaceFix.IOForm.resources
