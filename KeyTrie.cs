@@ -73,7 +73,8 @@ namespace SpaceFix
         readonly Node root = new Node(default(char), 0);
         List<char> alphabet = new List<char>();
         ArgumentException canNotSeparate = new ArgumentException(
-                "The argument can not be separated as a set of keys.");
+                "The argument can not be separated as a set of keys.",
+                "keys");
         ArithmeticException noCheckPointsFoundException =
             new ArithmeticException("It was on purpose");
 
@@ -136,7 +137,7 @@ namespace SpaceFix
         public string[][] SeparateKeys(string keys)
         {
             if (keys == string.Empty) throw new ArgumentException(
-                "The concatenated keys string must be not empty.");
+                "The concatenated keys string must be not empty.", "keys");
 
             //Initializing locals
             List<List<string>> keysVariants =
@@ -146,33 +147,11 @@ namespace SpaceFix
                 current = root;
             int
                 keyNum = 0,
-                //varCount = 1,
                 lastI = keys.Length - 1,
-                varNum = 0;//,
-                           //currentBifPointNumber = -1;
+                varNum = 0;
             bool isError = false;
-            #region The case of no prefix-keys
-            //foreach (char c in keys)
-            //    try
-            //    {
-            //        if (current.Valuable)
-            //        {
-            //            keysVariants[varNum].Add(string.Empty);
-            //            keyNum++;
-            //            current = root;
-            //        }
-            //        current = current[c];
-            //        keysVariants[varNum][keyNum] += c;
-            //    }
-            //    catch
-            //    {
-            //        throw;
-            //    }
-            #endregion
             Node[]
-                checkPoints = new Node[keys.Length];//,
-                                                    //Bifurcation points
-                                                    //bifPoints = new Node[keys.Length];
+                checkPoints = new Node[keys.Length];
 
             //Separating keys
             for (int i = 0; i < keys.Length; i++)
@@ -238,7 +217,6 @@ namespace SpaceFix
                                 break;
                             }
                         }
-                        //if (isError && i == lastI) throw canNotSeparate;
                         isError = false;
                     }
                     catch (ArithmeticException e)
@@ -252,95 +230,18 @@ namespace SpaceFix
                             break;
                         }
                     }
-
-                #region Old code
-                //Работавший без бифуркаций вариант
-                //for (int i = 0; i < keys.Length; i++)
-                //{
-                //    try
-                //    {
-                //        current = current[char.ToLower(keys[i])];
-                //        keysVariants[varNum][keyNum] += keys[i];
-                //        if (current.Valuable)
-                //        {
-                //            if (i != lastI && current.HasChild(keys[i + 1]))
-                //            {
-                //                //bifPoints[i] = current;
-                //                varCount++;
-                //            }
-                //            checkPoints[i] = current;
-                //            keysVariants[varNum].Add(string.Empty);
-                //            keyNum++;
-                //            current = root;
-                //        }
-                //    }
-                //    catch (IndexOutOfRangeException)
-                //    { 
-                //        bool loopIsBroken = false;
-                //        for (int j = i; j >= 0; j--)
-                //            if (checkPoints[j] != null)
-                //            {
-                //                current = checkPoints[j];
-                //                i = j;
-                //                checkPoints[j] = null;
-                //                keysVariants[varNum].RemoveAt(keyNum--);
-                //                loopIsBroken = true;
-                //                break;
-                //            }
-                //        if (!loopIsBroken) throw canNotSeparate;
-                //    }
-
-
-                //Попытки добавить бифуркации как явление, отличное от чек-поинта
-                //if (i == lastI || i == currentBifPointNumber)
-                //    for (int j = i; j >= 0; j--)
-                //        if (bifPoints[j] != null)
-                //        {
-                //            current = bifPoints[j];
-                //            i = currentBifPointNumber = j;
-                //            bifPoints[j] = null;
-                //            varNum++;
-                //            for (int writtenChars = 0, repeatedKeyNum = 0;
-                //                writtenChars != j + 1;
-                //                repeatedKeyNum++)
-                //            {
-                //                keysVariants[varNum][repeatedKeyNum] =
-                //                    keysVariants[varNum - 1][repeatedKeyNum];
-                //                writtenChars +=
-                //                    keysVariants[varNum][repeatedKeyNum].Length;
-                //                //Not exactly an overflow, but looks like
-                //                //the most appropriate exception in the situation.
-                //                //Added to prevent an infinite cycle that is not supposed
-                //                //to emerge if there is no bugs in the method.
-                //                if (writtenChars > j + 1) throw new OverflowException(
-                //                    "The number of written characters is bigger " +
-                //                    "then it ment to be.");
-                //            }
-
-                //        }
-                #endregion
             }
 
             //Removing variants not ending with a key
-            //try
-            //{
-                //foreach (List<string> variant in keysVariants)
-                //if (variant.Last() != string.Empty)
-                //{
-                //    keysVariants.Remove(variant);
-                //    varNum--;
-                //}
-                //else variant.Remove(string.Empty);
-                for (int i = 0;i < keysVariants.Count;i++)
-                    if (keysVariants[i].Last() != string.Empty)
-                    {
-                        keysVariants.Remove(keysVariants[i--]);
-                        varNum--;
-                    }
-                    else keysVariants[i].Remove(string.Empty);
-            //}
-            //catch (InvalidOperationException)
-            //{ throw canNotSeparate; }
+            for (int i = 0; i < keysVariants.Count; i++)
+                if (keysVariants[i].Last() != string.Empty)
+                {
+                    keysVariants.Remove(keysVariants[i--]);
+                    varNum--;
+                }
+                else keysVariants[i].Remove(string.Empty);
+            if (keysVariants.Count == 0)
+                throw canNotSeparate;
 
             //Returning
             string[][] result = new string[varNum + 1][];
