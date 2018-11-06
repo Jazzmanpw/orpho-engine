@@ -165,21 +165,23 @@ namespace SpaceFix
         }
         private void fixItFromTextBoxButton_Click(object sender, EventArgs e)
         {
-            using (IOForm IForm = new IOForm(true))
-            {
-                string text;
-                try
+            if (!Dictionary.IsEmpty)
+                using (IOForm IForm = new IOForm(true))
                 {
-                    text = TryToFix(IForm);
-                    using (IOForm OForm = new IOForm(false))
+                    string text;
+                    try
                     {
-                        OForm.textBox.Text = text;
-                        OForm.ShowDialog();
+                        text = TryToFix(IForm);
+                        using (IOForm OForm = new IOForm(false))
+                        {
+                            OForm.textBox.Text = text;
+                            OForm.ShowDialog();
+                        }
                     }
+                    catch (OperationCanceledException)
+                    { }
                 }
-                catch (OperationCanceledException)
-                { }
-            }
+            else MessageShow(Messages.noDictionary);
         }
         private void showDictionaryButton_Click(object sender, EventArgs e)
         {
