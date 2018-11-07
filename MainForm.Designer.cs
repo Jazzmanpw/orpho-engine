@@ -45,10 +45,14 @@
             this.textsOperationsLabel = new System.Windows.Forms.Label();
             this.textsOperationsPanel = new System.Windows.Forms.Panel();
             this.fixItFromTextBoxButton = new System.Windows.Forms.Button();
-            this.dictionaryPanel = new System.Windows.Forms.Panel();
+            this.dictionaryPanel1 = new System.Windows.Forms.Panel();
+            this.dictionaryPanel2 = new System.Windows.Forms.Panel();
+            this.deleteButton = new System.Windows.Forms.Button();
+            this.expandButton = new System.Windows.Forms.Button();
             this.generalPanel.SuspendLayout();
             this.textsOperationsPanel.SuspendLayout();
-            this.dictionaryPanel.SuspendLayout();
+            this.dictionaryPanel1.SuspendLayout();
+            this.dictionaryPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // createDictionaryButton
@@ -134,7 +138,7 @@
             this.showDictionaryTextBox.Name = "showDictionaryTextBox";
             this.showDictionaryTextBox.ReadOnly = true;
             this.showDictionaryTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.showDictionaryTextBox.Size = new System.Drawing.Size(241, 237);
+            this.showDictionaryTextBox.Size = new System.Drawing.Size(141, 235);
             this.showDictionaryTextBox.TabIndex = 6;
             this.showDictionaryTextBox.TabStop = false;
             // 
@@ -177,9 +181,10 @@
             // 
             // generalPanel
             // 
+            this.generalPanel.Controls.Add(this.dictionaryPanel2);
             this.generalPanel.Controls.Add(this.textsOperationsLabel);
             this.generalPanel.Controls.Add(this.textsOperationsPanel);
-            this.generalPanel.Controls.Add(this.dictionaryPanel);
+            this.generalPanel.Controls.Add(this.dictionaryPanel1);
             this.generalPanel.Controls.Add(this.dictionaryLabel);
             this.generalPanel.Controls.Add(this.encodingLabel1);
             this.generalPanel.Controls.Add(this.sampleCheckBox);
@@ -196,7 +201,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textsOperationsLabel.AutoSize = true;
             this.textsOperationsLabel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textsOperationsLabel.Location = new System.Drawing.Point(21, 97);
+            this.textsOperationsLabel.Location = new System.Drawing.Point(24, 120);
             this.textsOperationsLabel.Name = "textsOperationsLabel";
             this.textsOperationsLabel.Size = new System.Drawing.Size(129, 17);
             this.textsOperationsLabel.TabIndex = 11;
@@ -207,7 +212,7 @@
             this.textsOperationsPanel.Controls.Add(this.fixItFromTextBoxButton);
             this.textsOperationsPanel.Controls.Add(this.fixItFromFileButton);
             this.textsOperationsPanel.Controls.Add(this.wreckItButton);
-            this.textsOperationsPanel.Location = new System.Drawing.Point(3, 117);
+            this.textsOperationsPanel.Location = new System.Drawing.Point(6, 140);
             this.textsOperationsPanel.Name = "textsOperationsPanel";
             this.textsOperationsPanel.Size = new System.Drawing.Size(162, 69);
             this.textsOperationsPanel.TabIndex = 12;
@@ -223,29 +228,64 @@
             this.fixItFromTextBoxButton.UseVisualStyleBackColor = true;
             this.fixItFromTextBoxButton.Click += new System.EventHandler(this.fixItFromTextBoxButton_Click);
             // 
-            // dictionaryPanel
+            // dictionaryPanel1
             // 
-            this.dictionaryPanel.Controls.Add(this.showDictionaryButton);
-            this.dictionaryPanel.Controls.Add(this.createDictionaryButton);
-            this.dictionaryPanel.Location = new System.Drawing.Point(3, 71);
-            this.dictionaryPanel.Name = "dictionaryPanel";
-            this.dictionaryPanel.Size = new System.Drawing.Size(162, 23);
-            this.dictionaryPanel.TabIndex = 11;
+            this.dictionaryPanel1.Controls.Add(this.showDictionaryButton);
+            this.dictionaryPanel1.Controls.Add(this.createDictionaryButton);
+            this.dictionaryPanel1.Location = new System.Drawing.Point(3, 71);
+            this.dictionaryPanel1.Name = "dictionaryPanel1";
+            this.dictionaryPanel1.Size = new System.Drawing.Size(162, 23);
+            this.dictionaryPanel1.TabIndex = 11;
+            // 
+            // dictionaryPanel2
+            // 
+            this.dictionaryPanel2.Controls.Add(this.deleteButton);
+            this.dictionaryPanel2.Controls.Add(this.expandButton);
+            this.dictionaryPanel2.Location = new System.Drawing.Point(3, 94);
+            this.dictionaryPanel2.Name = "dictionaryPanel2";
+            this.dictionaryPanel2.Size = new System.Drawing.Size(162, 23);
+            this.dictionaryPanel2.TabIndex = 13;
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.deleteButton.Enabled = false;
+            this.deleteButton.Location = new System.Drawing.Point(81, 0);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(81, 23);
+            this.deleteButton.TabIndex = 4;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
+            // expandButton
+            // 
+            this.expandButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.expandButton.Enabled = false;
+            this.expandButton.Location = new System.Drawing.Point(0, 0);
+            this.expandButton.Name = "expandButton";
+            this.expandButton.Size = new System.Drawing.Size(81, 23);
+            this.expandButton.TabIndex = 0;
+            this.expandButton.Text = "Expand";
+            this.expandButton.UseVisualStyleBackColor = true;
+            this.expandButton.Click += new System.EventHandler(this.expandButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 262);
+            this.ClientSize = new System.Drawing.Size(332, 260);
             this.Controls.Add(this.generalPanel);
             this.Controls.Add(this.showDictionaryTextBox);
             this.Controls.Add(this.timerLabel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
             this.Text = "Space Fix";
             this.generalPanel.ResumeLayout(false);
             this.generalPanel.PerformLayout();
             this.textsOperationsPanel.ResumeLayout(false);
-            this.dictionaryPanel.ResumeLayout(false);
+            this.dictionaryPanel1.ResumeLayout(false);
+            this.dictionaryPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -265,10 +305,13 @@
         private System.Windows.Forms.TextBox encodingTextBox;
         private System.Windows.Forms.Label dictionaryLabel;
         private System.Windows.Forms.Panel generalPanel;
-        private System.Windows.Forms.Panel dictionaryPanel;
+        private System.Windows.Forms.Panel dictionaryPanel1;
         private System.Windows.Forms.Label textsOperationsLabel;
         private System.Windows.Forms.Panel textsOperationsPanel;
         private System.Windows.Forms.Button fixItFromTextBoxButton;
+        private System.Windows.Forms.Panel dictionaryPanel2;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Button expandButton;
     }
 }
 

@@ -13,7 +13,7 @@ namespace SpaceFix
     public partial class MainForm : Form
     {
         //Enumerators
-        public enum Messages
+        internal enum Messages
         {
             noDictionary,
             openingFilesNotDone,
@@ -21,7 +21,8 @@ namespace SpaceFix
             showDictionary,
             codepageParse,
             replaceDictionary,
-            canNotFix
+            canNotFix,
+            deleteDictionary
         }
 
         //Constructors
@@ -37,12 +38,13 @@ namespace SpaceFix
         string
             sampleTextPath = @"../../SampleTexts/SimpleSample.txt",
             wreckedTextPath;
+        IOForm iof = new IOForm();
 
         //Delegates
         delegate void pathsOperation(params string[] paths);
 
         //Methods
-        DialogResult MessageShow(Messages c)
+        static internal DialogResult MessageShow(Messages c)
         {
             switch (c)
             {
@@ -85,6 +87,12 @@ namespace SpaceFix
                         "May be some words have another form or typo.\n" +
                         "Please, check the text and try again");
 
+                case Messages.deleteDictionary:
+                    return MessageBox.Show(
+                        "This will delete all the words from " +
+                        "the dictionary. Do you want to continue?",
+                        "Delete?", MessageBoxButtons.YesNo);
+
                 default:
                     throw new NotImplementedException();
             }
@@ -95,6 +103,13 @@ namespace SpaceFix
                 Dictionary.CreateFromFile(paths);
             else
                 Dictionary.CreateFromFile(encoding, paths);
+        }
+        void ExpandDictionary(params string[] paths)
+        {
+            if (encodingTextBox.Text == string.Empty)
+                Dictionary.Expand(paths);
+            else
+                Dictionary.Expand(encoding, paths);
         }
         void OpenFileAndDo(pathsOperation Operation)
         {
@@ -121,25 +136,26 @@ namespace SpaceFix
                             "\\SapmleTexts";
                         if (ofd.ShowDialog() == DialogResult.OK)
                             Operation(ofd.FileNames);
+                        else throw new OperationCanceledException();
                     }
             }
         }
-        string TryToFix(IOForm IForm)
-        {
-            if (IForm.ShowDialog() == DialogResult.OK)
-                try
-                { return Fixer.FixString(IForm.textBox.Text); }
-                catch (ArgumentException e)
-                {
-                    if (e.ParamName == "keys")
-                    {
-                        MessageShow(Messages.canNotFix);
-                        return TryToFix(IForm);
-                    }
-                    throw;
-                }
-            throw new OperationCanceledException();
-        }
+        //string TryToFix(IOForm IForm)
+        //{
+        //    if (IForm.ShowDialog() == DialogResult.OK)
+        //        try
+        //        { return Fixer.FixString(IForm.inputTextBox.Text); }
+        //        catch (ArgumentException e)
+        //        {
+        //            if (e.ParamName == "keys")
+        //            {
+        //                MessageShow(Messages.canNotFix);
+        //                return TryToFix(IForm);
+        //            }
+        //            throw;
+        //        }
+        //    throw new OperationCanceledException();
+        //}
 
         //Event handlers
         private void createDictionaryButton_Click(object sender, EventArgs e)
@@ -148,7 +164,13 @@ namespace SpaceFix
             if (!Dictionary.IsEmpty)
                 if (MessageShow(Messages.replaceDictionary) == DialogResult.No)
                     return;
-            OpenFileAndDo(CreateDictionary);
+            try
+            {
+                OpenFileAndDo(CreateDictionary);
+                expandButton.Enabled = true;
+                deleteButton.Enabled = true;
+            }
+            catch (OperationCanceledException) { }
 
             //timer.Stop();
             ////Why doesn't timer count seconds correctly?!?
@@ -160,27 +182,30 @@ namespace SpaceFix
             if (!Dictionary.IsEmpty)
                 if (sampleCheckBox.Checked && wreckedTextPath == null)
                     MessageShow(Messages.textNotWrecked);
-                else OpenFileAndDo(Fixer.FixSpaces);
+                else
+                    try { OpenFileAndDo(Fixer.FixSpaces); }
+                    catch (OperationCanceledException) { }
             else MessageShow(Messages.noDictionary);
         }
         private void fixItFromTextBoxButton_Click(object sender, EventArgs e)
         {
             if (!Dictionary.IsEmpty)
-                using (IOForm IForm = new IOForm(true))
-                {
-                    string text;
-                    try
-                    {
-                        text = TryToFix(IForm);
-                        using (IOForm OForm = new IOForm(false))
-                        {
-                            OForm.textBox.Text = text;
-                            OForm.ShowDialog();
-                        }
-                    }
-                    catch (OperationCanceledException)
-                    { }
-                }
+            //using (IOForm IForm = new IOForm(true))
+            //{
+            //    string text;
+            //    try
+            //    {
+            //        text = TryToFix(IForm);
+            //        using (IOForm OForm = new IOForm(false))
+            //        {
+            //            OForm.inputTextBox.Text = text;
+            //            OForm.ShowDialog();
+            //        }
+            //    }
+            //    catch (OperationCanceledException)
+            //    { }
+            //}
+                iof.Show();
             else MessageShow(Messages.noDictionary);
         }
         private void showDictionaryButton_Click(object sender, EventArgs e)
@@ -197,6 +222,23 @@ namespace SpaceFix
         private void Timer_Tick(object sender, EventArgs e)
         {
             timerTime++;
+        }
+        private void expandButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileAndDo(ExpandDictionary);
+            }
+            catch (OperationCanceledException) { }
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            if (MessageShow(Messages.deleteDictionary) == DialogResult.Yes)
+            {
+                Dictionary.Delete();
+                expandButton.Enabled = false;
+                deleteButton.Enabled = false;
+            }
         }
         private void sampleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
