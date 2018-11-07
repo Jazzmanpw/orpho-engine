@@ -13,53 +13,59 @@ namespace SpaceFix
     public partial class IOForm : Form
     {
         //Constructors
-        public IOForm(bool isInput)
+        public IOForm()
         {
             InitializeComponent();
-            textBox.ReadOnly =
-                copyButton.Visible =
-                !isInput;
-            pasteButton.Visible =
-                clearButton.Visible =
-                cancelButton.Visible =
-                isInput;
-            Text = isInput ? "Text to fix spaces" : "Fixed text";
         }
 
         //Event handlers
-        private void okButton_Click(object sender, EventArgs e)
+        private void fixItButton_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
-            Close();
+            try
+            { outputTextBox.Text = Fixer.FixString(inputTextBox.Text); }
+            catch (ArgumentException ex)
+            {
+                if (ex.ParamName == "keys")
+                    MainForm.MessageShow(MainForm.Messages.canNotFix);
+                throw;
+            }
         }
-        private void cancelButton_Click(object sender, EventArgs e)
+        private void inputClearButton_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
-        private void clearButton_Click(object sender, EventArgs e)
-        {
-            if (textBox.Text != string.Empty &&
+            if (inputTextBox.Text != string.Empty &&
                 MessageBox.Show("Do you want to delete all " +
-                "the data from the text box?", "Clear?",
+                "the data from the input text box?", "Clear?",
                 MessageBoxButtons.OKCancel) == DialogResult.OK)
-                textBox.Text = string.Empty;
+                inputTextBox.Text = string.Empty;
+        }
+        private void outputClearButton_Click(object sender, EventArgs e)
+        {
+            if (outputTextBox.Text != string.Empty &&
+                MessageBox.Show("Do you want to delete all " +
+                "the data from the output text box?", "Clear?",
+                MessageBoxButtons.OKCancel) == DialogResult.OK)
+                outputTextBox.Text = string.Empty;
         }
         private void copyButton_Click(object sender, EventArgs e)
         {
-            if (textBox.Text != string.Empty)
-                Clipboard.SetText(textBox.Text);
+            if (outputTextBox.Text != string.Empty)
+                Clipboard.SetText(outputTextBox.Text);
         }
         private void pasteButton_Click(object sender, EventArgs e)
         {
             string text = Clipboard.GetText();
             if (text == string.Empty) return;
-            if (textBox.Text == string.Empty ||
+            if (inputTextBox.Text == string.Empty ||
             MessageBox.Show("The entered text will be relaced.\n" +
             "Do you want to continue?", "Replace?",
             MessageBoxButtons.OKCancel) == DialogResult.OK)
-                textBox.Text = Clipboard.GetText();
+                inputTextBox.Text = Clipboard.GetText();
+        }
 
+        private void IOForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
         }
     }
 }
