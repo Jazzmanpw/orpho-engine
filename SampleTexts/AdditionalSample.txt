@@ -1,4 +1,0 @@
-﻿Here I want to put more and MORE words for the dictionary =)
-
-And he will try to enter text to a TextBox we offer him.
-He won't get a chance to fill it with words we've never added to the dictionary.
