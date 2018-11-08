@@ -27,7 +27,7 @@ namespace SpaceFix
             {
                 if (ex.ParamName == "keys")
                     MainForm.MessageShow(MainForm.Messages.canNotFix);
-                throw;
+                else throw;
             }
         }
         private void inputClearButton_Click(object sender, EventArgs e)
@@ -43,7 +43,7 @@ namespace SpaceFix
             if (outputTextBox.Text != string.Empty &&
                 MessageBox.Show("Do you want to delete all " +
                 "the data from the output text box?", "Clear?",
-                MessageBoxButtons.OKCancel) == DialogResult.OK)
+                MessageBoxButtons.YesNo) == DialogResult.Yes)
                 outputTextBox.Text = string.Empty;
         }
         private void copyButton_Click(object sender, EventArgs e)
@@ -58,7 +58,7 @@ namespace SpaceFix
             if (inputTextBox.Text == string.Empty ||
             MessageBox.Show("The entered text will be relaced.\n" +
             "Do you want to continue?", "Replace?",
-            MessageBoxButtons.OKCancel) == DialogResult.OK)
+            MessageBoxButtons.YesNo) == DialogResult.Yes)
                 inputTextBox.Text = Clipboard.GetText();
         }
 

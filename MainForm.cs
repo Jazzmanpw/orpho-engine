@@ -16,7 +16,7 @@ namespace SpaceFix
         internal enum Messages
         {
             noDictionary,
-            openingFilesNotDone,
+            expandingNotDone,
             textNotWrecked,
             showDictionary,
             codepageParse,
@@ -53,9 +53,10 @@ namespace SpaceFix
                         "A dictionary must be created first.",
                         "There is no dictionary");
 
-                case Messages.openingFilesNotDone:
+                case Messages.expandingNotDone:
                     return MessageBox.Show(
-                        "We have to handle file opening by OpenFileDialog first",
+                        "The method to expand the dictionary must be updated first " +
+                        "according to the changes made in the dictionary structure.",
                         "Upcoming task");
 
                 case Messages.textNotWrecked:
@@ -100,14 +101,14 @@ namespace SpaceFix
         void CreateDictionary(params string[] paths)
         {
             if (encodingTextBox.Text == string.Empty)
-                Dictionary.CreateFromFile(paths);
+                Dictionary.CreateFromFile(paths: paths);
             else
                 Dictionary.CreateFromFile(encoding, paths);
         }
         void ExpandDictionary(params string[] paths)
         {
             if (encodingTextBox.Text == string.Empty)
-                Dictionary.Expand(paths);
+                Dictionary.Expand(paths: paths);
             else
                 Dictionary.Expand(encoding, paths);
         }
@@ -140,22 +141,6 @@ namespace SpaceFix
                     }
             }
         }
-        //string TryToFix(IOForm IForm)
-        //{
-        //    if (IForm.ShowDialog() == DialogResult.OK)
-        //        try
-        //        { return Fixer.FixString(IForm.inputTextBox.Text); }
-        //        catch (ArgumentException e)
-        //        {
-        //            if (e.ParamName == "keys")
-        //            {
-        //                MessageShow(Messages.canNotFix);
-        //                return TryToFix(IForm);
-        //            }
-        //            throw;
-        //        }
-        //    throw new OperationCanceledException();
-        //}
 
         //Event handlers
         private void createDictionaryButton_Click(object sender, EventArgs e)
@@ -190,21 +175,21 @@ namespace SpaceFix
         private void fixItFromTextBoxButton_Click(object sender, EventArgs e)
         {
             if (!Dictionary.IsEmpty)
-            //using (IOForm IForm = new IOForm(true))
-            //{
-            //    string text;
-            //    try
-            //    {
-            //        text = TryToFix(IForm);
-            //        using (IOForm OForm = new IOForm(false))
-            //        {
-            //            OForm.inputTextBox.Text = text;
-            //            OForm.ShowDialog();
-            //        }
-            //    }
-            //    catch (OperationCanceledException)
-            //    { }
-            //}
+                //using (IOForm IForm = new IOForm(true))
+                //{
+                //    string text;
+                //    try
+                //    {
+                //        text = TryToFix(IForm);
+                //        using (IOForm OForm = new IOForm(false))
+                //        {
+                //            OForm.inputTextBox.Text = text;
+                //            OForm.ShowDialog();
+                //        }
+                //    }
+                //    catch (OperationCanceledException)
+                //    { }
+                //}
                 iof.Show();
             else MessageShow(Messages.noDictionary);
         }
@@ -227,7 +212,8 @@ namespace SpaceFix
         {
             try
             {
-                OpenFileAndDo(ExpandDictionary);
+                //OpenFileAndDo(ExpandDictionary);
+                MessageShow(Messages.expandingNotDone);
             }
             catch (OperationCanceledException) { }
         }

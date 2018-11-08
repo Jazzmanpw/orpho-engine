@@ -94,10 +94,12 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="SampleTexts\LoremIpsum.txt" />
     <Content Include="SampleTexts\RussianSapmle.txt" />
     <Content Include="SampleTexts\AdditionalSample - Copy.txt" />
     <Content Include="SampleTexts\AdditionalSample.txt" />
     <Content Include="SampleTexts\SimpleSample.txt" />
+    <Content Include="SampleTexts\Smallian Re%27jmond - Kak zhe nazyvaetsya e%27ta kniga.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
