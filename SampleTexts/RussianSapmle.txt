@@ -1,1 +1,2 @@
 ﻿А тут пусть будет русский текст. Получится ли поиграться с кодировкой?
+And I hope latin letters won't break it all.
