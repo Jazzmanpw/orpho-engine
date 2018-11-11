@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trie.cs" />
     <Compile Include="Wrecker.cs" />
     <EmbeddedResource Include="IOForm.resx">
       <DependentUpon>IOForm.cs</DependentUpon>
@@ -96,8 +97,6 @@
   <ItemGroup>
     <Content Include="SampleTexts\LoremIpsum.txt" />
     <Content Include="SampleTexts\RussianSapmle.txt" />
-    <Content Include="SampleTexts\AdditionalSample - Copy.txt" />
-    <Content Include="SampleTexts\AdditionalSample.txt" />
     <Content Include="SampleTexts\SimpleSample.txt" />
     <Content Include="SampleTexts\Smallian Re%27jmond - Kak zhe nazyvaetsya e%27ta kniga.txt" />
   </ItemGroup>
