@@ -11,16 +11,9 @@ namespace SpaceFix
     {
         //Fields
         static string separator = "|__OR__|";
-        static int shWLenUpLim;
 
         //Properties
-        public static double ShortWordsPart { get; set; } = .4;
-        public static int ShortWordLength
-        {
-            get { return shWLenUpLim - 1; }
-            set { shWLenUpLim = value + 1; }
-        }
-        public static int NumOfVars { get; set; }// = 3;
+        public static int NumOfVars { get; set; }
 
         //Methods
         static string FixPhrase(string phrase)
@@ -51,20 +44,6 @@ namespace SpaceFix
                 }
                 fixVariants = mostExpectedVariants;
             }
-            ////Try to remove variants with too many short words
-            ////throw new NotImplementedException();
-            //List<string[]> fixVariants_short = new List<string[]>();
-            //foreach (string[] variant in fixVariants)
-            //{
-            //    int wordsNum = variant.GetLength(0),
-            //        shortWorsdNum = 0;
-            //    foreach (string word in variant)
-            //        if (word.Length < shWLenUpLim) shortWorsdNum++;
-            //    if (shortWorsdNum < wordsNum * ShortWordsPart)
-            //        fixVariants_short.Add(variant);
-            //}
-            //if (fixVariants_short.Count != 0)
-            //    fixVariants = fixVariants_short.ToArray();
 
             //Build result string
             bool isOneVariant = fixVariants.GetLength(0) == 1;

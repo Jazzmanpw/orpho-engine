@@ -29,8 +29,6 @@ namespace SpaceFix
         public MainForm()
         {
             InitializeComponent();
-            shortWordsPartComboBox.SelectedIndex = 1;
-            shortWordsLengthComboBox.SelectedIndex = 0;
             maxVarNumNumericUpDown.Minimum =
                 Fixer.NumOfVars = 1;
         }
@@ -235,17 +233,6 @@ namespace SpaceFix
             if (MessageShow(Messages.deleteDictionary) == DialogResult.Yes)
                 DeleteDictionary();
         }
-        private void shortWordsPartComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string s = shortWordsPartComboBox.SelectedItem.ToString();
-            Fixer.ShortWordsPart = double.Parse(s.Remove(s.LastIndexOf("%"))) / 100;
-            shortWordsLengthComboBox.Enabled =
-                shortWordsPartComboBox.SelectedItem.ToString() != "100%";
-        }
-        private void shortWordsLengthComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Fixer.ShortWordLength = int.Parse(shortWordsLengthComboBox.SelectedItem.ToString());
-        }
         private void sampleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             fixItFromTextBoxButton.Enabled =
@@ -260,12 +247,10 @@ namespace SpaceFix
                     !(sortByFreqRadioButton.Checked = false);
             }
         }
-
         private void maxVarNumNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
             Fixer.NumOfVars = (int)maxVarNumNumericUpDown.Value;
         }
-
         private void wreckItButton_Click(object sender, EventArgs e)
         {
             if (encodingTextBox.Text != string.Empty &&

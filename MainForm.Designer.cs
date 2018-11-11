@@ -39,9 +39,8 @@
             this.encodingTextBox = new System.Windows.Forms.TextBox();
             this.dictionaryLabel = new System.Windows.Forms.Label();
             this.generalPanel = new System.Windows.Forms.Panel();
-            this.shortWordsLengthComboBox = new System.Windows.Forms.ComboBox();
-            this.shortWordsLabel = new System.Windows.Forms.Label();
-            this.shortWordsPartComboBox = new System.Windows.Forms.ComboBox();
+            this.maxVarNumNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.maxVarNumLabel = new System.Windows.Forms.Label();
             this.dictionaryPanel2 = new System.Windows.Forms.Panel();
             this.deleteButton = new System.Windows.Forms.Button();
             this.expandButton = new System.Windows.Forms.Button();
@@ -53,14 +52,12 @@
             this.sortLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.sortByFreqRadioButton = new System.Windows.Forms.RadioButton();
-            this.maxVarNumLabel = new System.Windows.Forms.Label();
-            this.maxVarNumNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.generalPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxVarNumNumericUpDown)).BeginInit();
             this.dictionaryPanel2.SuspendLayout();
             this.textsOperationsPanel.SuspendLayout();
             this.dictionaryPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxVarNumNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // createDictionaryButton
@@ -130,7 +127,7 @@
             this.showDictionaryTextBox.Name = "showDictionaryTextBox";
             this.showDictionaryTextBox.ReadOnly = true;
             this.showDictionaryTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.showDictionaryTextBox.Size = new System.Drawing.Size(174, 269);
+            this.showDictionaryTextBox.Size = new System.Drawing.Size(174, 226);
             this.showDictionaryTextBox.TabIndex = 6;
             this.showDictionaryTextBox.TabStop = false;
             // 
@@ -176,9 +173,6 @@
             // 
             this.generalPanel.Controls.Add(this.maxVarNumNumericUpDown);
             this.generalPanel.Controls.Add(this.maxVarNumLabel);
-            this.generalPanel.Controls.Add(this.shortWordsLengthComboBox);
-            this.generalPanel.Controls.Add(this.shortWordsLabel);
-            this.generalPanel.Controls.Add(this.shortWordsPartComboBox);
             this.generalPanel.Controls.Add(this.dictionaryPanel2);
             this.generalPanel.Controls.Add(this.textsOperationsLabel);
             this.generalPanel.Controls.Add(this.textsOperationsPanel);
@@ -190,52 +184,41 @@
             this.generalPanel.Controls.Add(this.encodingLabel2);
             this.generalPanel.Location = new System.Drawing.Point(5, 4);
             this.generalPanel.Name = "generalPanel";
-            this.generalPanel.Size = new System.Drawing.Size(168, 306);
+            this.generalPanel.Size = new System.Drawing.Size(168, 263);
             this.generalPanel.TabIndex = 11;
             // 
-            // shortWordsLengthComboBox
+            // maxVarNumNumericUpDown
             // 
-            this.shortWordsLengthComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.shortWordsLengthComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.shortWordsLengthComboBox.FormattingEnabled = true;
-            this.shortWordsLengthComboBox.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3"});
-            this.shortWordsLengthComboBox.Location = new System.Drawing.Point(84, 232);
-            this.shortWordsLengthComboBox.Name = "shortWordsLengthComboBox";
-            this.shortWordsLengthComboBox.Size = new System.Drawing.Size(81, 24);
-            this.shortWordsLengthComboBox.TabIndex = 16;
-            this.shortWordsLengthComboBox.Text = "length";
-            this.shortWordsLengthComboBox.SelectedIndexChanged += new System.EventHandler(this.shortWordsLengthComboBox_SelectedIndexChanged);
+            this.maxVarNumNumericUpDown.Location = new System.Drawing.Point(3, 235);
+            this.maxVarNumNumericUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.maxVarNumNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.maxVarNumNumericUpDown.Name = "maxVarNumNumericUpDown";
+            this.maxVarNumNumericUpDown.Size = new System.Drawing.Size(162, 20);
+            this.maxVarNumNumericUpDown.TabIndex = 18;
+            this.maxVarNumNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.maxVarNumNumericUpDown.ValueChanged += new System.EventHandler(this.maxVarNumNumericUpDown_ValueChanged);
             // 
-            // shortWordsLabel
+            // maxVarNumLabel
             // 
-            this.shortWordsLabel.AutoSize = true;
-            this.shortWordsLabel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            this.shortWordsLabel.Location = new System.Drawing.Point(45, 212);
-            this.shortWordsLabel.Name = "shortWordsLabel";
-            this.shortWordsLabel.Size = new System.Drawing.Size(81, 17);
-            this.shortWordsLabel.TabIndex = 15;
-            this.shortWordsLabel.Text = "Short words";
-            // 
-            // shortWordsPartComboBox
-            // 
-            this.shortWordsPartComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.shortWordsPartComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.shortWordsPartComboBox.FormattingEnabled = true;
-            this.shortWordsPartComboBox.Items.AddRange(new object[] {
-            "20%",
-            "40%",
-            "60%",
-            "80%",
-            "100%"});
-            this.shortWordsPartComboBox.Location = new System.Drawing.Point(3, 232);
-            this.shortWordsPartComboBox.Name = "shortWordsPartComboBox";
-            this.shortWordsPartComboBox.Size = new System.Drawing.Size(81, 24);
-            this.shortWordsPartComboBox.TabIndex = 14;
-            this.shortWordsPartComboBox.Text = "part";
-            this.shortWordsPartComboBox.SelectedIndexChanged += new System.EventHandler(this.shortWordsPartComboBox_SelectedIndexChanged);
+            this.maxVarNumLabel.AutoSize = true;
+            this.maxVarNumLabel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.maxVarNumLabel.Location = new System.Drawing.Point(10, 214);
+            this.maxVarNumLabel.Name = "maxVarNumLabel";
+            this.maxVarNumLabel.Size = new System.Drawing.Size(149, 17);
+            this.maxVarNumLabel.TabIndex = 17;
+            this.maxVarNumLabel.Text = "Max number of variants";
             // 
             // dictionaryPanel2
             // 
@@ -345,7 +328,7 @@
             this.panel1.Controls.Add(this.showDictionaryTextBox);
             this.panel1.Location = new System.Drawing.Point(179, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(174, 306);
+            this.panel1.Size = new System.Drawing.Size(174, 263);
             this.panel1.TabIndex = 14;
             // 
             // sortByFreqRadioButton
@@ -360,44 +343,11 @@
             this.sortByFreqRadioButton.UseVisualStyleBackColor = true;
             this.sortByFreqRadioButton.CheckedChanged += new System.EventHandler(this.sortRadioButtons_CheckedChanged);
             // 
-            // maxVarNumLabel
-            // 
-            this.maxVarNumLabel.AutoSize = true;
-            this.maxVarNumLabel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            this.maxVarNumLabel.Location = new System.Drawing.Point(10, 259);
-            this.maxVarNumLabel.Name = "maxVarNumLabel";
-            this.maxVarNumLabel.Size = new System.Drawing.Size(149, 17);
-            this.maxVarNumLabel.TabIndex = 17;
-            this.maxVarNumLabel.Text = "Max number of variants";
-            // 
-            // maxVarNumNumericUpDown
-            // 
-            this.maxVarNumNumericUpDown.Location = new System.Drawing.Point(3, 280);
-            this.maxVarNumNumericUpDown.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.maxVarNumNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.maxVarNumNumericUpDown.Name = "maxVarNumNumericUpDown";
-            this.maxVarNumNumericUpDown.Size = new System.Drawing.Size(162, 20);
-            this.maxVarNumNumericUpDown.TabIndex = 18;
-            this.maxVarNumNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.maxVarNumNumericUpDown.ValueChanged += new System.EventHandler(this.maxVarNumNumericUpDown_ValueChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 316);
+            this.ClientSize = new System.Drawing.Size(359, 273);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.generalPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -405,12 +355,12 @@
             this.Text = "Space Fix";
             this.generalPanel.ResumeLayout(false);
             this.generalPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxVarNumNumericUpDown)).EndInit();
             this.dictionaryPanel2.ResumeLayout(false);
             this.textsOperationsPanel.ResumeLayout(false);
             this.dictionaryPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxVarNumNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -434,9 +384,6 @@
         private System.Windows.Forms.Panel dictionaryPanel2;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button expandButton;
-        private System.Windows.Forms.ComboBox shortWordsPartComboBox;
-        private System.Windows.Forms.Label shortWordsLabel;
-        private System.Windows.Forms.ComboBox shortWordsLengthComboBox;
         private System.Windows.Forms.RadioButton sortByABCRadioButton;
         private System.Windows.Forms.Label sortLabel;
         private System.Windows.Forms.Panel panel1;
