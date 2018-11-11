@@ -18,23 +18,25 @@ namespace SpaceFix
             noDictionary,
             expandingNotDone,
             textNotWrecked,
-            showDictionary,
             codepageParse,
             replaceDictionary,
             canNotFix,
-            deleteDictionary
+            deleteDictionary,
+            sortingNotImplemented
         }
 
         //Constructors
         public MainForm()
         {
             InitializeComponent();
+            shortWordsPartComboBox.SelectedIndex = 1;
+            shortWordsLengthComboBox.SelectedIndex = 0;
+            maxVarNumNumericUpDown.Minimum =
+                Fixer.NumOfVars = 1;
         }
 
         //Fields
-        int
-            timerTime = 0,
-            encoding;
+        int encoding;
         string
             sampleTextPath = @"../../SampleTexts/SimpleSample.txt",
             wreckedTextPath;
@@ -64,13 +66,6 @@ namespace SpaceFix
                         "The sample text has to be wrecked first.",
                         "Wreck it first");
 
-                case Messages.showDictionary:
-                    string message = "It takes about 15 seconds to get the keys " +
-                        "of a dictionary with approximately 40 words. " +
-                        "Do you really want to wait? Consider the text " +
-                        "you made the dictionary with and the variety of words in it";
-                    return MessageBox.Show(message, "Do you want to wait?", MessageBoxButtons.YesNo);
-
                 case Messages.codepageParse:
                     return MessageBox.Show(
                         "The codepage number must be" +
@@ -94,12 +89,18 @@ namespace SpaceFix
                         "the dictionary. Do you want to continue?",
                         "Delete?", MessageBoxButtons.YesNo);
 
+                case Messages.sortingNotImplemented:
+                    return MessageBox.Show("The ordering of the words" +
+                        "by frequency of their emerging in the processed text " +
+                        "is not done yet.", "Upcoming task");
+
                 default:
                     throw new NotImplementedException();
             }
         }
         void CreateDictionary(params string[] paths)
         {
+            DeleteDictionary();
             if (encodingTextBox.Text == string.Empty)
                 Dictionary.CreateFromFile(paths: paths);
             else
@@ -111,6 +112,15 @@ namespace SpaceFix
                 Dictionary.Expand(paths: paths);
             else
                 Dictionary.Expand(encoding, paths);
+        }
+        void DeleteDictionary()
+        {
+            Dictionary.Delete();
+            showDictionaryTextBox.Text = string.Empty;
+            expandButton.Enabled =
+            deleteButton.Enabled =
+            sortByABCRadioButton.Enabled =
+            sortByFreqRadioButton.Enabled = false;
         }
         void OpenFileAndDo(pathsOperation Operation)
         {
@@ -141,11 +151,17 @@ namespace SpaceFix
                     }
             }
         }
+        void WreckIt(params string[] paths)
+        {
+            if (encodingTextBox.Text == string.Empty)
+                Dictionary.CreateFromFile(paths: paths);
+            else
+                Dictionary.CreateFromFile(encoding, paths);
+        }
 
         //Event handlers
         private void createDictionaryButton_Click(object sender, EventArgs e)
         {
-            //timer.Start();
             if (!Dictionary.IsEmpty)
                 if (MessageShow(Messages.replaceDictionary) == DialogResult.No)
                     return;
@@ -156,11 +172,6 @@ namespace SpaceFix
                 deleteButton.Enabled = true;
             }
             catch (OperationCanceledException) { }
-
-            //timer.Stop();
-            ////Why doesn't timer count seconds correctly?!?
-            //timerLabel.Text = "Time in s: " + timerTime;
-            //timerTime = 0;
         }
         private void fixItFromFileButton_Click(object sender, EventArgs e)
         {
@@ -197,16 +208,18 @@ namespace SpaceFix
         {
             if (!Dictionary.IsEmpty)
             {
-                if (MessageShow(Messages.showDictionary)
-                    == DialogResult.Yes)
-                    showDictionaryTextBox.Lines = Dictionary.Words;
+                sortByABCRadioButton.Enabled =
+                sortByFreqRadioButton.Enabled = true;
+                showDictionaryTextBox.Text =
+                    "Total amount of words in processed text is " +
+                    $"{Dictionary.TotalWordsCount}.";
+                foreach (string word in Dictionary.Words)
+                    showDictionaryTextBox.AppendText(
+                        $"{Environment.NewLine}{word}" +
+                        $" ({Dictionary.Frequency(word)})");
             }
             else
                 MessageShow(Messages.noDictionary);
-        }
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            timerTime++;
         }
         private void expandButton_Click(object sender, EventArgs e)
         {
@@ -220,22 +233,53 @@ namespace SpaceFix
         private void deleteButton_Click(object sender, EventArgs e)
         {
             if (MessageShow(Messages.deleteDictionary) == DialogResult.Yes)
-            {
-                Dictionary.Delete();
-                expandButton.Enabled = false;
-                deleteButton.Enabled = false;
-            }
+                DeleteDictionary();
+        }
+        private void shortWordsPartComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string s = shortWordsPartComboBox.SelectedItem.ToString();
+            Fixer.ShortWordsPart = double.Parse(s.Remove(s.LastIndexOf("%"))) / 100;
+            shortWordsLengthComboBox.Enabled =
+                shortWordsPartComboBox.SelectedItem.ToString() != "100%";
+        }
+        private void shortWordsLengthComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Fixer.ShortWordLength = int.Parse(shortWordsLengthComboBox.SelectedItem.ToString());
         }
         private void sampleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             fixItFromTextBoxButton.Enabled =
                 !(wreckItButton.Enabled = sampleCheckBox.Checked);
         }
+        private void sortRadioButtons_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sortByFreqRadioButton.Checked)
+            {
+                MessageShow(Messages.sortingNotImplemented);
+                sortByABCRadioButton.Checked =
+                    !(sortByFreqRadioButton.Checked = false);
+            }
+        }
+
+        private void maxVarNumNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            Fixer.NumOfVars = (int)maxVarNumNumericUpDown.Value;
+        }
+
         private void wreckItButton_Click(object sender, EventArgs e)
         {
-            //if (sampleCheckBox.Checked)
-            wreckedTextPath = Wrecker.WreckSpaces(sampleTextPath);
-            //else MessageShow(Messages.openingFilesNotDone);
+            if (encodingTextBox.Text != string.Empty &&
+                !int.TryParse(encodingTextBox.Text, out encoding) ||
+                encoding < 0 || encoding > 65535)
+                MessageShow(Messages.codepageParse);
+            else
+            {
+                if (encodingTextBox.Text == string.Empty)
+                    wreckedTextPath = Wrecker.WreckSpaces(sampleTextPath);
+                else
+                    wreckedTextPath = Wrecker.WreckSpaces(sampleTextPath, encoding);
+            }
+
         }
     }
 }

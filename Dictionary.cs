@@ -10,7 +10,8 @@ namespace SpaceFix
     class Dictionary
     {
         //Fields
-        static KeyTrie words;
+        //static KeyTrie words;
+        static Trie<uint> words;
         static List<char> alphabet;
 
         //Delegates
@@ -19,6 +20,7 @@ namespace SpaceFix
         //Properties
         public static bool IsEmpty => words == null;
         public static string[] Words => words.Keys;
+        public static uint TotalWordsCount { get; private set; }
 
         //Methods
         public static void Delete()
@@ -30,6 +32,7 @@ namespace SpaceFix
             words.Delete(word);
         }
         public static bool? Valuable(string word) => words.Valuable(word);
+        public static uint Frequency(string word) => words.GetValue(word);
         static void CheckPaths(params string[] paths)
         {
             if (paths.Length == 0) throw new ArgumentException(
@@ -41,7 +44,7 @@ namespace SpaceFix
             CheckPaths(paths);
             alphabet = new List<char>();
             ReadForDictionary(encoding, PullLetters, paths);
-            words = new KeyTrie(alphabet.ToArray());
+            words = new Trie<uint>(alphabet.ToArray(), "frequency");
             ReadForDictionary(encoding, AddWords, paths);
         }
         public static void Expand(int encoding = -1, params string[] paths)
@@ -80,7 +83,9 @@ namespace SpaceFix
                 {
                     if (word != string.Empty)
                     {
-                        words.Add(word);
+                        TotalWordsCount += 1;
+                        if (!words.TryAdd(word, 1))
+                            words.Add(word, Frequency(word) + 1);
                         word = string.Empty;
                     }
                 }
@@ -95,6 +100,16 @@ namespace SpaceFix
                             new StreamReader(path,
                                 Encoding.GetEncoding(encoding)))
                 { ReadNDo(sr); }
+        }
+        public static bool PhraseIsCorrect(string phrase)
+        {
+            foreach (string word in
+                phrase.Split(
+                    new char[1] { ' ' },
+                    StringSplitOptions.RemoveEmptyEntries))
+                if (!Valuable(word) ?? true)
+                    return false;
+            return true;
         }
         public static string[][] SeparateWords(string concatenatedWords)
         {
