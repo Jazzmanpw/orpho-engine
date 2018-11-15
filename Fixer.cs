@@ -102,12 +102,15 @@ namespace SpaceFix
                     result += c;
                 }
             if (concatenatedPhrase != string.Empty)
-                result += FixPhrase(concatenatedPhrase);
+                result +=
+                    Dictionary.PhraseIsCorrect(originalPhrase) ?
+                    originalPhrase :
+                    FixPhrase(concatenatedPhrase);
             return result;
         }
         static string GetFixedPath(string path)
         {
-            return path.Remove(path.Length - 4) + $"_fixed.txt";
+            return Path.ChangeExtension(path, "fixed.txt");// path.Remove(path.Length - 4) + $"_fixed.txt";
         }
         static string[] GetFixedPath(string[] paths)
         {

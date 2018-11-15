@@ -12,11 +12,22 @@ namespace SpaceFix
 {
     public partial class IOForm : Form
     {
+
+
         //Constructors
         public IOForm()
         {
             InitializeComponent();
+            maxVarNumNumericUpDown.Minimum =
+                Fixer.NumOfVars = 1;
+            KeyPreview = true;
         }
+
+        //Fields
+        DictionaryDialog dDialog = new DictionaryDialog();
+
+        //Properties
+        public DictionaryDebugForm DDForm { get; } = new DictionaryDebugForm();
 
         //Event handlers
         private void fixItButton_Click(object sender, EventArgs e)
@@ -26,7 +37,7 @@ namespace SpaceFix
             catch (ArgumentException ex)
             {
                 if (ex.ParamName == "keys")
-                    MainForm.MessageShow(MainForm.Messages.canNotFix);
+                    SFMessage.Show(Messages.canNotFix);
                 else throw;
             }
         }
@@ -61,11 +72,38 @@ namespace SpaceFix
             MessageBoxButtons.YesNo) == DialogResult.Yes)
                 inputTextBox.Text = Clipboard.GetText();
         }
-
-        private void IOForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void maxVarNumNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            e.Cancel = true;
-            Hide();
+            Fixer.NumOfVars = (int)maxVarNumNumericUpDown.Value;
+        }
+        private void IOForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fixItButton.Enabled && e.Control && e.KeyCode == Keys.D)
+                DDForm.Show();
+            if (e.Control && e.KeyCode == Keys.W)
+                using (OpenFileDialog ofd = new OpenFileDialog())
+                {
+                    ofd.Title = "Choose file to wreck";
+                    ofd.Filter = "text files (*.txt)|*.txt";
+                    ofd.InitialDirectory = System.IO.Path.Combine(
+                        (new System.IO.DirectoryInfo(Application.StartupPath)).
+                        Parent.Parent.Name, "SampleTexts");
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                        Wrecker.WreckSpaces(ofd.FileName, 1251);
+                }
+        }
+        private void dictionaryButton_Click(object sender, EventArgs e)
+        {
+            switch (dDialog.ShowDialog())
+            {
+                case DialogResult.Yes:
+                    fixItButton.Enabled = true;
+                    break;
+                case DialogResult.No:
+                    fixItButton.Enabled = false;
+                    DDForm.RemoveText();
+                    break;
+            }
         }
     }
 }

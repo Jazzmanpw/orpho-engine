@@ -48,7 +48,7 @@ namespace SpaceFix
         }
         static string GetWreckedPath(string path)
         {
-            return path.Remove(path.Length - 4) + "_wrecked.txt";
+            return Path.ChangeExtension(path, "wrecked.txt");//path.Remove(path.Length - 4) + "_wrecked.txt";
         }
     }
 }
