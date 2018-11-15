@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace SpaceFix
 {
-    class Wrecker
+    static class Wrecker
     {
-        //Fields
-
         //Methods
         public static string WreckSpaces(string path, int encoding = -1)
         {

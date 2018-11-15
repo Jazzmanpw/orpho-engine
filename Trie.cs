@@ -63,7 +63,7 @@ namespace SpaceFix
         }
 
         //Constructors
-        public Trie(char[] abc, string name = "", T emptyValue = default(T))
+        public Trie(char[] abc, string name = null, T emptyValue = default(T))
         {
             //abcLength = abc.Length;
             alphabet = new Dictionary<char, int>(abc.Length);

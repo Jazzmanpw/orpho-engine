@@ -70,8 +70,6 @@ namespace SpaceFix
         ArgumentException canNotSeparate = new ArgumentException(
                 "The argument can not be separated as a set of keys.",
                 "keys");
-        ArithmeticException noCheckPointsFoundException =
-            new ArithmeticException("It was on purpose");
 
         //Properties
         public string[] Keys

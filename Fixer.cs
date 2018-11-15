@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SpaceFix
 {
-    class Fixer
+    static class Fixer
     {
         //Fields
         static string separator = "|__OR__|";

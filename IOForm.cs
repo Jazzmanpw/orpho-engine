@@ -12,8 +12,6 @@ namespace SpaceFix
 {
     public partial class IOForm : Form
     {
-
-
         //Constructors
         public IOForm()
         {
@@ -25,9 +23,7 @@ namespace SpaceFix
 
         //Fields
         DictionaryDialog dDialog = new DictionaryDialog();
-
-        //Properties
-        public DictionaryDebugForm DDForm { get; } = new DictionaryDebugForm();
+        DictionaryDebugForm ddForm = new DictionaryDebugForm();
 
         //Event handlers
         private void fixItButton_Click(object sender, EventArgs e)
@@ -79,7 +75,7 @@ namespace SpaceFix
         private void IOForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (fixItButton.Enabled && e.Control && e.KeyCode == Keys.D)
-                DDForm.Show();
+                ddForm.Show();
             if (e.Control && e.KeyCode == Keys.W)
                 using (OpenFileDialog ofd = new OpenFileDialog())
                 {
@@ -101,7 +97,7 @@ namespace SpaceFix
                     break;
                 case DialogResult.No:
                     fixItButton.Enabled = false;
-                    DDForm.RemoveText();
+                    ddForm.RemoveText();
                     break;
             }
         }

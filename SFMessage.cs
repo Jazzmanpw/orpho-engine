@@ -20,7 +20,7 @@ namespace SpaceFix
         sortingNotImplemented
     }
 
-    class SFMessage
+    static class SFMessage
     {
         static internal DialogResult Show(Messages c)
         {

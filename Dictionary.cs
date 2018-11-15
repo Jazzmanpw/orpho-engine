@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SpaceFix
 {
-    class Dictionary
+    static class Dictionary
     {
         //Fields
-        //static KeyTrie words;
         static Trie<uint> words;
         static List<char> alphabet;
 
