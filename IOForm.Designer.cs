@@ -36,12 +36,17 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.outputTextBox = new System.Windows.Forms.TextBox();
             this.outputClearButton = new System.Windows.Forms.Button();
+            this.maxVarNumNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.maxVarNumLabel = new System.Windows.Forms.Label();
+            this.dictionaryButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxVarNumNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // fixItButton
             // 
-            this.fixItButton.Location = new System.Drawing.Point(368, 543);
+            this.fixItButton.Enabled = false;
+            this.fixItButton.Location = new System.Drawing.Point(502, 543);
             this.fixItButton.Name = "fixItButton";
             this.fixItButton.Size = new System.Drawing.Size(75, 23);
             this.fixItButton.TabIndex = 4;
@@ -62,7 +67,7 @@
             // 
             // inputClearButton
             // 
-            this.inputClearButton.Location = new System.Drawing.Point(93, 543);
+            this.inputClearButton.Location = new System.Drawing.Point(174, 543);
             this.inputClearButton.Name = "inputClearButton";
             this.inputClearButton.Size = new System.Drawing.Size(75, 23);
             this.inputClearButton.TabIndex = 2;
@@ -72,7 +77,7 @@
             // 
             // pasteButton
             // 
-            this.pasteButton.Location = new System.Drawing.Point(12, 543);
+            this.pasteButton.Location = new System.Drawing.Point(93, 543);
             this.pasteButton.Name = "pasteButton";
             this.pasteButton.Size = new System.Drawing.Size(75, 23);
             this.pasteButton.TabIndex = 1;
@@ -123,11 +128,58 @@
             this.outputClearButton.UseVisualStyleBackColor = true;
             this.outputClearButton.Click += new System.EventHandler(this.outputClearButton_Click);
             // 
+            // maxVarNumNumericUpDown
+            // 
+            this.maxVarNumNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.maxVarNumNumericUpDown.Location = new System.Drawing.Point(426, 543);
+            this.maxVarNumNumericUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.maxVarNumNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.maxVarNumNumericUpDown.Name = "maxVarNumNumericUpDown";
+            this.maxVarNumNumericUpDown.Size = new System.Drawing.Size(70, 23);
+            this.maxVarNumNumericUpDown.TabIndex = 20;
+            this.maxVarNumNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.maxVarNumNumericUpDown.ValueChanged += new System.EventHandler(this.maxVarNumNumericUpDown_ValueChanged);
+            // 
+            // maxVarNumLabel
+            // 
+            this.maxVarNumLabel.AutoSize = true;
+            this.maxVarNumLabel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.maxVarNumLabel.Location = new System.Drawing.Point(271, 547);
+            this.maxVarNumLabel.Name = "maxVarNumLabel";
+            this.maxVarNumLabel.Size = new System.Drawing.Size(149, 17);
+            this.maxVarNumLabel.TabIndex = 19;
+            this.maxVarNumLabel.Text = "Max number of variants";
+            // 
+            // dictionaryButton
+            // 
+            this.dictionaryButton.Location = new System.Drawing.Point(12, 543);
+            this.dictionaryButton.Name = "dictionaryButton";
+            this.dictionaryButton.Size = new System.Drawing.Size(75, 23);
+            this.dictionaryButton.TabIndex = 21;
+            this.dictionaryButton.Text = "Dictionary...";
+            this.dictionaryButton.UseVisualStyleBackColor = true;
+            this.dictionaryButton.Click += new System.EventHandler(this.dictionaryButton_Click);
+            // 
             // IOForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(810, 578);
+            this.Controls.Add(this.dictionaryButton);
+            this.Controls.Add(this.maxVarNumNumericUpDown);
+            this.Controls.Add(this.maxVarNumLabel);
             this.Controls.Add(this.outputClearButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.copyButton);
@@ -137,10 +189,12 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "IOForm";
             this.Text = "Fix from TextBox";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.IOForm_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.IOForm_KeyDown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxVarNumNumericUpDown)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -153,5 +207,8 @@
         private System.Windows.Forms.TextBox outputTextBox;
         private System.Windows.Forms.Button outputClearButton;
         private System.Windows.Forms.TextBox inputTextBox;
+        private System.Windows.Forms.NumericUpDown maxVarNumNumericUpDown;
+        private System.Windows.Forms.Label maxVarNumLabel;
+        private System.Windows.Forms.Button dictionaryButton;
     }
 }

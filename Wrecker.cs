@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace SpaceFix
 {
-    class Wrecker
+    static class Wrecker
     {
-        //Fields
-
         //Methods
         public static string WreckSpaces(string path, int encoding = -1)
         {
@@ -48,7 +46,7 @@ namespace SpaceFix
         }
         static string GetWreckedPath(string path)
         {
-            return path.Remove(path.Length - 4) + "_wrecked.txt";
+            return Path.ChangeExtension(path, "wrecked.txt");//path.Remove(path.Length - 4) + "_wrecked.txt";
         }
     }
 }
