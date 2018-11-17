@@ -13,37 +13,13 @@ namespace SpaceFix
         static string separator = "|__OR__|";
 
         //Properties
-        public static int NumOfVars { get; set; }
+        static public bool IfShowExpectations { get; set; }
 
         //Methods
         static string FixPhrase(string phrase)
         {
             //Get fixed variants
             string[][] fixVariants = Dictionary.SeparateWords(phrase);
-
-            //Calculate expectances of phrases.
-            //We consider it to be a multiplication of
-            //probabilities of words to emerge in the text.
-            if (fixVariants.GetLength(0) > NumOfVars)
-            {
-                double[] phraseExpectances = new double[fixVariants.GetLength(0)];
-                for (int i = 0; i < phraseExpectances.Length; i++)
-                {
-                    phraseExpectances[i] = 1;
-                    foreach (string word in fixVariants[i])
-                        phraseExpectances[i] *=
-                            (double)Dictionary.Frequency(word.ToLowerInvariant()) /
-                            Dictionary.TotalWordsCount;
-                }
-                string[][] mostExpectedVariants = new string[NumOfVars][];
-                for (int i = 0; i < NumOfVars; i++)
-                {
-                    int maxNum = Array.IndexOf(phraseExpectances, phraseExpectances.Max());
-                    mostExpectedVariants[i] = fixVariants[maxNum];
-                    phraseExpectances[maxNum] = 0;
-                }
-                fixVariants = mostExpectedVariants;
-            }
 
             //Build result string
             bool isOneVariant = fixVariants.GetLength(0) == 1;
@@ -54,6 +30,9 @@ namespace SpaceFix
                     fixedPhrase += word + " ";
                 fixedPhrase =
                     fixedPhrase.Remove(fixedPhrase.Length - 1) +
+                    (IfShowExpectations && !isOneVariant ?
+                        string.Format("({0:E3})", Dictionary.Expectation(variant)) :
+                        string.Empty) +
                     separator;
             }
             return
@@ -93,7 +72,7 @@ namespace SpaceFix
                     if (concatenatedPhrase != string.Empty)
                     {
                         result +=
-                            Dictionary.PhraseIsCorrect(originalPhrase) ?
+                            Dictionary.PhraseIsCorrect(originalPhrase.ToLowerInvariant()) ?
                             originalPhrase :
                             FixPhrase(concatenatedPhrase);
                         concatenatedPhrase =

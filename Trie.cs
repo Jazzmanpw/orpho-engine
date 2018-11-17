@@ -27,7 +27,8 @@ namespace SpaceFix
                 childern = new Node[alphabet.Count];
             }
             public Node(char name, int depth) :
-                this(name, depth, EmptyValue) { }
+                this(name, depth, EmptyValue)
+            { }
 
             //Fields
             Node[] childern;
@@ -150,9 +151,11 @@ namespace SpaceFix
         {
             try
             { return GetNode(key).Value; }
-            catch(NullReferenceException e)
-            { throw new KeyNotFoundException(
-                "There is no such a key in the dictionary", e); }
+            catch (NullReferenceException e)
+            {
+                throw new KeyNotFoundException(
+                  "There is no such a key in the dictionary", e);
+            }
         }
         Node GetNode(string key)
         {
@@ -184,6 +187,10 @@ namespace SpaceFix
             }
         }
         public string[][] SeparateKeys(string keys)
+        {
+            return SeparateKeys<object>(keys);
+        }
+        public string[][] SeparateKeys<TComp>(string keys, PreprocessComparer<List<string>, TComp> pc = null)
         {
             if (keys == string.Empty) throw new ArgumentException(
                 "The concatenated keys string must be not empty.", "keys");
@@ -230,13 +237,6 @@ namespace SpaceFix
                     for (int j = i; j >= 0; j--)
                         if (checkPoints[j] != null)
                         {
-                            //Go back to the checkpoint
-                            current = checkPoints[j];
-                            i = j;
-
-                            //Delete the checkpoint
-                            checkPoints[j] = null;
-
                             //Copy true keys
                             keysVariants.Add(new List<string>());
                             keyNum = -1;
@@ -256,37 +256,80 @@ namespace SpaceFix
                                     "The number of written characters is bigger " +
                                     "then it ment to be.");
                             }
-                            if (isError)
+
+                            if (isError ||
+                                i == lastI &&
+                                keysVariants[varNum].Last() != varFinalizer)
                             //Delete spoiled variant
                             {
                                 keysVariants.RemoveAt(varNum);
                                 isError = false;
                             }
-                            else
-                                //Increase the number of variants
-                                varNum++;
+                            else if (i == lastI)
+                            {
+                                keysVariants[varNum].Remove(varFinalizer);
+                                int compResult =
+                                    (varNum == 0) ? 0 :
+                                        pc?.Compare(
+                                            keysVariants[varNum],
+                                            keysVariants[0]) ?? 0;
+                                switch (compResult)
+                                {
+                                    case 1:
+                                        //Relpace old variants with a better one
+                                        keysVariants =
+                                            new List<List<string>>()
+                                            {
+                                                keysVariants[varNum],
+                                                keysVariants[varNum + 1]
+                                            };
+                                        varNum = 1;
+                                        break;
+                                    case 0:
+                                        //Increase the number of variants
+                                        varNum++;
+                                        break;
+                                    case -1:
+                                        //Remove a variant that is not good enough
+                                        keysVariants.RemoveAt(varNum);
+                                        break;
+                                }
+
+                            }
+
+                            //Go back to the checkpoint
+                            current = checkPoints[j];
+                            i = j;
+
+                            //Delete the checkpoint
+                            checkPoints[j] = null;
+
                             break;
                         }
                 if (isError) break;
             }
+            if (keysVariants[varNum].Last() != varFinalizer)
+                keysVariants.Remove(keysVariants[varNum--]);
+            else keysVariants[varNum].Remove(varFinalizer);
 
-            //Removing variants not ending with a key
-            for (int i = 0; i < keysVariants.Count; i++)
-                if (keysVariants[i].Last() != varFinalizer)
+            //Sorting
+            pc.IfUseAlternative = true;
+            keysVariants.Sort(pc);
+            keysVariants.Reverse();
+            pc.IfUseAlternative = false;
+
+            //Repeated removal of the worst variants
+            for (int i = 1; i < varNum + 1; i++)
+                if (pc.Compare(keysVariants[i], keysVariants[0]) < 0)
                 {
-                    keysVariants.Remove(keysVariants[i--]);
+                    keysVariants.RemoveAt(i--);
                     varNum--;
                 }
-                else keysVariants[i].Remove(varFinalizer);
-            if (keysVariants.Count == 0)
-                throw canNotSeparate;
 
             //Returning
             string[][] result = new string[varNum + 1][];
             for (int i = 0; i < varNum + 1; i++)
-            {
                 result[i] = keysVariants[i].ToArray();
-            }
             return result;
         }
     }
