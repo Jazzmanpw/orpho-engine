@@ -36,17 +36,18 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.outputTextBox = new System.Windows.Forms.TextBox();
             this.outputClearButton = new System.Windows.Forms.Button();
-            this.maxVarNumNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.maxVarNumLabel = new System.Windows.Forms.Label();
             this.dictionaryButton = new System.Windows.Forms.Button();
+            this.expectationsCheckBox = new System.Windows.Forms.CheckBox();
+            this.dispersionNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dispersionLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxVarNumNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dispersionNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // fixItButton
             // 
             this.fixItButton.Enabled = false;
-            this.fixItButton.Location = new System.Drawing.Point(502, 543);
+            this.fixItButton.Location = new System.Drawing.Point(561, 543);
             this.fixItButton.Name = "fixItButton";
             this.fixItButton.Size = new System.Drawing.Size(75, 23);
             this.fixItButton.TabIndex = 4;
@@ -128,40 +129,6 @@
             this.outputClearButton.UseVisualStyleBackColor = true;
             this.outputClearButton.Click += new System.EventHandler(this.outputClearButton_Click);
             // 
-            // maxVarNumNumericUpDown
-            // 
-            this.maxVarNumNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.maxVarNumNumericUpDown.Location = new System.Drawing.Point(426, 543);
-            this.maxVarNumNumericUpDown.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.maxVarNumNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.maxVarNumNumericUpDown.Name = "maxVarNumNumericUpDown";
-            this.maxVarNumNumericUpDown.Size = new System.Drawing.Size(70, 23);
-            this.maxVarNumNumericUpDown.TabIndex = 20;
-            this.maxVarNumNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.maxVarNumNumericUpDown.ValueChanged += new System.EventHandler(this.maxVarNumNumericUpDown_ValueChanged);
-            // 
-            // maxVarNumLabel
-            // 
-            this.maxVarNumLabel.AutoSize = true;
-            this.maxVarNumLabel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            this.maxVarNumLabel.Location = new System.Drawing.Point(271, 547);
-            this.maxVarNumLabel.Name = "maxVarNumLabel";
-            this.maxVarNumLabel.Size = new System.Drawing.Size(149, 17);
-            this.maxVarNumLabel.TabIndex = 19;
-            this.maxVarNumLabel.Text = "Max number of variants";
-            // 
             // dictionaryButton
             // 
             this.dictionaryButton.Location = new System.Drawing.Point(12, 543);
@@ -172,14 +139,49 @@
             this.dictionaryButton.UseVisualStyleBackColor = true;
             this.dictionaryButton.Click += new System.EventHandler(this.dictionaryButton_Click);
             // 
+            // expectationsCheckBox
+            // 
+            this.expectationsCheckBox.AutoSize = true;
+            this.expectationsCheckBox.Checked = true;
+            this.expectationsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.expectationsCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.expectationsCheckBox.Location = new System.Drawing.Point(255, 545);
+            this.expectationsCheckBox.Name = "expectationsCheckBox";
+            this.expectationsCheckBox.Size = new System.Drawing.Size(144, 21);
+            this.expectationsCheckBox.TabIndex = 22;
+            this.expectationsCheckBox.Text = "Show expectations";
+            this.expectationsCheckBox.UseVisualStyleBackColor = true;
+            this.expectationsCheckBox.CheckedChanged += new System.EventHandler(this.expectationsCheckBox_CheckedChanged);
+            // 
+            // dispersionNumericUpDown
+            // 
+            this.dispersionNumericUpDown.DecimalPlaces = 4;
+            this.dispersionNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.dispersionNumericUpDown.Location = new System.Drawing.Point(481, 543);
+            this.dispersionNumericUpDown.Name = "dispersionNumericUpDown";
+            this.dispersionNumericUpDown.Size = new System.Drawing.Size(74, 23);
+            this.dispersionNumericUpDown.TabIndex = 23;
+            this.dispersionNumericUpDown.ValueChanged += new System.EventHandler(this.dispersionNumericUpDown_ValueChanged);
+            // 
+            // dispersionLabel
+            // 
+            this.dispersionLabel.AutoSize = true;
+            this.dispersionLabel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.dispersionLabel.Location = new System.Drawing.Point(405, 547);
+            this.dispersionLabel.Name = "dispersionLabel";
+            this.dispersionLabel.Size = new System.Drawing.Size(70, 17);
+            this.dispersionLabel.TabIndex = 24;
+            this.dispersionLabel.Text = "Dispertion";
+            // 
             // IOForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(810, 578);
+            this.Controls.Add(this.dispersionLabel);
+            this.Controls.Add(this.dispersionNumericUpDown);
+            this.Controls.Add(this.expectationsCheckBox);
             this.Controls.Add(this.dictionaryButton);
-            this.Controls.Add(this.maxVarNumNumericUpDown);
-            this.Controls.Add(this.maxVarNumLabel);
             this.Controls.Add(this.outputClearButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.copyButton);
@@ -192,7 +194,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.IOForm_KeyDown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxVarNumNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dispersionNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,8 +209,9 @@
         private System.Windows.Forms.TextBox outputTextBox;
         private System.Windows.Forms.Button outputClearButton;
         private System.Windows.Forms.TextBox inputTextBox;
-        private System.Windows.Forms.NumericUpDown maxVarNumNumericUpDown;
-        private System.Windows.Forms.Label maxVarNumLabel;
         private System.Windows.Forms.Button dictionaryButton;
+        private System.Windows.Forms.CheckBox expectationsCheckBox;
+        private System.Windows.Forms.NumericUpDown dispersionNumericUpDown;
+        private System.Windows.Forms.Label dispersionLabel;
     }
 }

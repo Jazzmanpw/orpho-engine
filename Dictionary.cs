@@ -20,6 +20,7 @@ namespace SpaceFix
         public static bool IsEmpty => words == null;
         public static string[] Words => words.Keys;
         public static uint TotalWordsCount { get; private set; }
+        public static double Dispersion { get; set; } = 1.1;
 
         //Methods
         public static void Delete()
@@ -32,6 +33,20 @@ namespace SpaceFix
         }
         public static bool? Valuable(string word) => words.Valuable(word);
         public static uint Frequency(string word) => words.GetValue(word);
+        public static double Expectation(string word) =>
+            (double)Frequency(word) / TotalWordsCount;
+        //If case sencitivity will be added, the property must be redisigned!
+        public static double Expectation(string[] phrase)
+        {
+            double result = 1;
+            foreach (string word in phrase)
+                result *= Expectation(word.ToLowerInvariant());
+            return result;
+        }
+        public static double Expectation(List<string> phrase)
+        {
+            return Expectation(phrase.ToArray());
+        }
         static void CheckPaths(params string[] paths)
         {
             if (paths.Length == 0) throw new ArgumentException(
@@ -110,9 +125,18 @@ namespace SpaceFix
                     return false;
             return true;
         }
-        public static string[][] SeparateWords(string concatenatedWords)
+        public static string[][] SeparateWords(string concatenatedWords) =>
+            words.SeparateKeys(
+                concatenatedWords,
+                new PreprocessComparer<List<string>, double>
+                    (Expectation, CompareExpectations, Comparer<double>.Default.Compare));
+        static int CompareExpectations(double x, double y)
         {
-            return words.SeparateKeys(concatenatedWords);
+            if (x < 0 || y < 0) throw
+                    new InvalidOperationException("Expectations must be nonnegative.");
+            if (x > y * (Dispersion == 0 ? 1 : TotalWordsCount * Dispersion)) return 1;
+            if (y > x * (Dispersion == 0 ? 1 : TotalWordsCount * Dispersion)) return -1;
+            return 0;
         }
     }
 }

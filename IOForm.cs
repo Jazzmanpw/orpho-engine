@@ -16,9 +16,11 @@ namespace SpaceFix
         public IOForm()
         {
             InitializeComponent();
-            maxVarNumNumericUpDown.Minimum =
-                Fixer.NumOfVars = 1;
             KeyPreview = true;
+            Fixer.IfShowExpectations = 
+                expectationsCheckBox.Checked = true;
+            dispersionNumericUpDown.Increment = .01M;
+            dispersionNumericUpDown.Value = (decimal)(Dictionary.Dispersion = 0.01);
         }
 
         //Fields
@@ -68,10 +70,6 @@ namespace SpaceFix
             MessageBoxButtons.YesNo) == DialogResult.Yes)
                 inputTextBox.Text = Clipboard.GetText();
         }
-        private void maxVarNumNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            Fixer.NumOfVars = (int)maxVarNumNumericUpDown.Value;
-        }
         private void IOForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (fixItButton.Enabled && e.Control && e.KeyCode == Keys.D)
@@ -100,6 +98,14 @@ namespace SpaceFix
                     ddForm.RemoveText();
                     break;
             }
+        }
+        private void expectationsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Fixer.IfShowExpectations = expectationsCheckBox.Checked;
+        }
+        private void dispersionNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            Dictionary.Dispersion = (double)dispersionNumericUpDown.Value;
         }
     }
 }
