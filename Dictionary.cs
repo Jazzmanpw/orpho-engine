@@ -21,6 +21,7 @@ namespace SpaceFix
         public static string[] Words => words.Keys;
         public static uint TotalWordsCount { get; private set; }
         public static double Dispersion { get; set; } = 1.1;
+        public static bool IfCompare { get; set; } = true;
 
         //Methods
         public static void Delete()
@@ -126,10 +127,12 @@ namespace SpaceFix
             return true;
         }
         public static string[][] SeparateWords(string concatenatedWords) =>
-            words.SeparateKeys(
-                concatenatedWords,
-                new PreprocessComparer<List<string>, double>
-                    (Expectation, CompareExpectations, Comparer<double>.Default.Compare));
+            IfCompare ?
+                words.SeparateKeys(concatenatedWords, 
+                    new PreprocessComparer<List<string>, double>(
+                        Expectation, CompareExpectations, 
+                        Comparer<double>.Default.Compare)) :
+                words.SeparateKeys(concatenatedWords);
         static int CompareExpectations(double x, double y)
         {
             if (x < 0 || y < 0) throw

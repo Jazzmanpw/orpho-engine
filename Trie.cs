@@ -221,33 +221,56 @@ namespace SpaceFix
                     keysVariants[varNum][keyNum] += keys[i];
                     if (current.Valuable)
                     {
-                        if (i != lastI && current.HasChild(keys[i + 1]))
-                            checkPoints[i] = current;
-                        keysVariants[varNum].Add(
-                            i == lastI ?
-                            varFinalizer :
-                            string.Empty);
-                        keyNum++;
-                        current = root;
+                        if (i == lastI)
+                            keysVariants[varNum].Add(varFinalizer);
+                        else
+                            foreach (List<string> trueVariant in keysVariants)
+                                if (trueVariant != keysVariants[varNum] &&
+                                    SteppedIntoPattern(trueVariant, keysVariants[varNum]))
+                                {
+                                    int subvarLength = CharsInVariant(keysVariants[varNum]);
+                                    foreach (string key in trueVariant)
+                                        if ((subvarLength -= key.Length) < 0)
+                                            keysVariants[varNum].Add(key);
+                                    keysVariants[varNum].Add(varFinalizer);
+                                    i = lastI;
+                                    break;
+                                }
+                                else
+                                if (
+                                    checkPoints[i] == null &&
+                                    root.HasChild(char.ToLower(keys[i + 1])))
+                                    checkPoints[i] = current;
                     }
                 }
 
                 //Going back to a checkpoint
                 if (isError || i == lastI)
-                    for (int j = i; j >= 0; j--)
+                    for (int j = i - 1; j >= 0; j--)
                         if (checkPoints[j] != null)
                         {
                             //Copy true keys
                             keysVariants.Add(new List<string>());
                             keyNum = -1;
-                            for (int writtenChars = 0;//, repeatedKeyNum = 0;
+                            for (int writtenChars = 0;
                                 writtenChars != j + 1;)
                             {
-                                keyNum++;
-                                keysVariants[varNum + 1].Add(
-                                    keysVariants[varNum][keyNum]);
-                                writtenChars +=
-                                    keysVariants[varNum][keyNum].Length;
+                                if (writtenChars +
+                                    keysVariants[varNum][++keyNum].Length >
+                                    j + 1)
+                                {
+                                    keysVariants[varNum + 1].Add(string.Empty);
+                                    for (int k = 0; writtenChars != j + 1; k++, writtenChars++)
+                                        keysVariants[varNum + 1][keyNum] +=
+                                            keysVariants[varNum][keyNum][k];
+                                }
+                                else
+                                {
+                                    keysVariants[varNum + 1].Add(
+                                      keysVariants[varNum][keyNum]);
+                                    writtenChars +=
+                                        keysVariants[varNum][keyNum].Length;
+                                }
                                 //Not exactly an overflow, but looks like
                                 //the most appropriate exception in the situation.
                                 //Added to prevent an infinite cycle that is not supposed
@@ -272,7 +295,7 @@ namespace SpaceFix
                                     (varNum == 0) ? 0 :
                                         pc?.Compare(
                                             keysVariants[varNum],
-                                            keysVariants[0]) ?? 0;
+                                            keysVariants[varNum - 1]) ?? 0;
                                 switch (compResult)
                                 {
                                     case 1:
@@ -290,7 +313,7 @@ namespace SpaceFix
                                         varNum++;
                                         break;
                                     case -1:
-                                        //Remove a variant that is not good enough
+                                        //Remove a variant that is not good enough.
                                         keysVariants.RemoveAt(varNum);
                                         break;
                                 }
@@ -298,7 +321,9 @@ namespace SpaceFix
                             }
 
                             //Go back to the checkpoint
-                            current = checkPoints[j];
+                            current = root;
+                            keysVariants[varNum].Add(string.Empty);
+                            keyNum++;
                             i = j;
 
                             //Delete the checkpoint
@@ -306,30 +331,52 @@ namespace SpaceFix
 
                             break;
                         }
-                if (isError) break;
+                if (isError || i == lastI) break;
             }
             if (keysVariants[varNum].Last() != varFinalizer)
                 keysVariants.Remove(keysVariants[varNum--]);
             else keysVariants[varNum].Remove(varFinalizer);
 
-            //Sorting
-            pc.IfUseAlternative = true;
-            keysVariants.Sort(pc);
-            keysVariants.Reverse();
-            pc.IfUseAlternative = false;
+            if (pc != null)
+            {
+                //Sorting
+                pc.IfUseAlternative = true;
+                keysVariants.Sort(pc);
+                keysVariants.Reverse();
+                pc.IfUseAlternative = false;
 
-            //Repeated removal of the worst variants
-            for (int i = 1; i < varNum + 1; i++)
-                if (pc.Compare(keysVariants[i], keysVariants[0]) < 0)
-                {
-                    keysVariants.RemoveAt(i--);
-                    varNum--;
-                }
+                //Repeated removal of the worst variants
+                for (int i = 1; i < varNum + 1; i++)
+                    if (pc.Compare(keysVariants[i], keysVariants[0]) < 0)
+                    {
+                        keysVariants.RemoveAt(i--);
+                        varNum--;
+                    }
+            }
 
             //Returning
             string[][] result = new string[varNum + 1][];
             for (int i = 0; i < varNum + 1; i++)
                 result[i] = keysVariants[i].ToArray();
+            return result;
+        }
+        static bool SteppedIntoPattern(List<string> trueVariant, List<string> subvariant)
+        {
+            int subvarLength = CharsInVariant(subvariant);
+            for (int i = 0; subvarLength > 0; i++)
+            {
+                subvarLength -= trueVariant[i].Length;
+                if (subvarLength == 0 &&
+                    trueVariant[i] == subvariant.Last())
+                    return true;
+            }
+            return false;
+        }
+        static int CharsInVariant(List<string> variant)
+        {
+            int result = 0;
+            foreach (string key in variant)
+                result += key.Length;
             return result;
         }
     }

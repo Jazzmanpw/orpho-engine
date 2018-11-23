@@ -17,10 +17,12 @@ namespace SpaceFix
         {
             InitializeComponent();
             KeyPreview = true;
-            Fixer.IfShowExpectations = 
-                expectationsCheckBox.Checked = true;
-            dispersionNumericUpDown.Increment = .01M;
-            dispersionNumericUpDown.Value = (decimal)(Dictionary.Dispersion = 0.01);
+            //Fixer.IfShowExpectations = 
+            //    expectationsCheckBox.Checked = true;
+            //dispersionNumericUpDown.Increment = .01M;
+            //dispersionNumericUpDown.Value = (decimal)(Dictionary.Dispersion = 0.01);
+            Fixer.IfShowExpectations = false;
+            Dictionary.Dispersion = 0;
         }
 
         //Fields
@@ -72,19 +74,41 @@ namespace SpaceFix
         }
         private void IOForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (fixItButton.Enabled && e.Control && e.KeyCode == Keys.D)
-                ddForm.Show();
-            if (e.Control && e.KeyCode == Keys.W)
-                using (OpenFileDialog ofd = new OpenFileDialog())
-                {
-                    ofd.Title = "Choose file to wreck";
-                    ofd.Filter = "text files (*.txt)|*.txt";
-                    ofd.InitialDirectory = System.IO.Path.Combine(
-                        (new System.IO.DirectoryInfo(Application.StartupPath)).
-                        Parent.Parent.Name, "SampleTexts");
-                    if (ofd.ShowDialog() == DialogResult.OK)
-                        Wrecker.WreckSpaces(ofd.FileName, 1251);
-                }
+            //if (fixItButton.Enabled && e.Control && e.KeyCode == Keys.D)
+            //    ddForm.Show();
+            //else if (e.Control && e.KeyCode == Keys.W)
+            //    using (OpenFileDialog ofd = new OpenFileDialog())
+            //    {
+            //        ofd.Title = "Choose file to wreck";
+            //        ofd.Filter = "text files (*.txt)|*.txt";
+            //        ofd.InitialDirectory = System.IO.Path.Combine(
+            //            (new System.IO.DirectoryInfo(Application.StartupPath)).
+            //            Parent.Parent.Name, "SampleTexts");
+            //        if (ofd.ShowDialog() == DialogResult.OK)
+            //            Wrecker.WreckSpaces(ofd.FileName, 1251);
+            //    }
+            //else if (e.Control && e.KeyCode == Keys.S)
+            //{
+            //    Dictionary.CreateFromFile(1251, @"../../SampleTexts/SimpleSample.txt");
+            //    fixItButton.Enabled = true;
+            //    ddForm.RemoveText();
+            //}
+            //else if (e.Control && e.KeyCode == Keys.R)
+            //{
+            //    Dictionary.CreateFromFile(1251, @"../../SampleTexts/Smallian Re'jmond - Kak zhe nazyvaetsya e'ta kniga.txt");
+            //    fixItButton.Enabled = true;
+            //    ddForm.RemoveText();
+            //}
+            //else if (e.Control && e.Alt && e.KeyCode == Keys.C)
+            //{
+            //    Dictionary.IfCompare = false;
+            //    fixItButton.Text = "Fix";
+            //}
+            //else if (e.Control && e.KeyCode == Keys.C)
+            //{
+            //    Dictionary.IfCompare = true;//!e.Alt;
+            //    fixItButton.Text = "Fix_c";//e.Alt ? "Fix" : "Fix_c";
+            //}
         }
         private void dictionaryButton_Click(object sender, EventArgs e)
         {
@@ -92,6 +116,7 @@ namespace SpaceFix
             {
                 case DialogResult.Yes:
                     fixItButton.Enabled = true;
+                    ddForm.RemoveText();
                     break;
                 case DialogResult.No:
                     fixItButton.Enabled = false;
