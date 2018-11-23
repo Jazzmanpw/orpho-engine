@@ -27,6 +27,7 @@ namespace SpaceFix
         delegate void pathsOperation(params string[] paths);
 
         //Methods
+        //public void CreateSampleDectionary(
         void CreateDictionary(params string[] paths)
         {
             DeleteDictionary();
@@ -55,7 +56,7 @@ namespace SpaceFix
                     ofd.Filter = "text files (*.txt)|*.txt";
                     ofd.InitialDirectory = Path.Combine(
                         (new DirectoryInfo(Application.StartupPath)).
-                        Parent.Parent.Name, "SampleTexts");
+                        Parent.Parent.FullName, "SampleTexts");
                     if (ofd.ShowDialog() == DialogResult.OK)
                     {
                         Operation(ofd.FileNames);

@@ -151,6 +151,7 @@
             this.expectationsCheckBox.TabIndex = 22;
             this.expectationsCheckBox.Text = "Show expectations";
             this.expectationsCheckBox.UseVisualStyleBackColor = true;
+            this.expectationsCheckBox.Visible = false;
             this.expectationsCheckBox.CheckedChanged += new System.EventHandler(this.expectationsCheckBox_CheckedChanged);
             // 
             // dispersionNumericUpDown
@@ -161,6 +162,7 @@
             this.dispersionNumericUpDown.Name = "dispersionNumericUpDown";
             this.dispersionNumericUpDown.Size = new System.Drawing.Size(74, 23);
             this.dispersionNumericUpDown.TabIndex = 23;
+            this.dispersionNumericUpDown.Visible = false;
             this.dispersionNumericUpDown.ValueChanged += new System.EventHandler(this.dispersionNumericUpDown_ValueChanged);
             // 
             // dispersionLabel
@@ -172,6 +174,7 @@
             this.dispersionLabel.Size = new System.Drawing.Size(70, 17);
             this.dispersionLabel.TabIndex = 24;
             this.dispersionLabel.Text = "Dispertion";
+            this.dispersionLabel.Visible = false;
             // 
             // IOForm
             // 
